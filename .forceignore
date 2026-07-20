@@ -1,0 +1,8 @@
+.sf/
+.sfdx/
+.localdevserver/
+coverage/
+node_modules/
+npm-debug.log
+yarn-error.log
+.DS_Store

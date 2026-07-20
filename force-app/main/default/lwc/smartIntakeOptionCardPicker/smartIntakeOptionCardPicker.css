@@ -1,0 +1,53 @@
+.picker {
+    display: block;
+}
+
+.option-grid {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.option-card {
+    background: #ffffff;
+    border: 1px solid #c9c9c9;
+    border-radius: 0.35rem;
+    color: #181818;
+    cursor: pointer;
+    display: grid;
+    gap: 0.25rem;
+    min-height: 4rem;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.option-card:hover,
+.option-card:focus {
+    border-color: #0176d3;
+    box-shadow: 0 0 0 1px #0176d3;
+    outline: 0;
+}
+
+.option-card_selected {
+    background: #eef4ff;
+    border-color: #0176d3;
+    box-shadow: 0 0 0 1px #0176d3;
+}
+
+.option-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.option-value {
+    color: #5c5c5c;
+    font-size: 0.75rem;
+}
+
+.empty-state {
+    background: #f7f9fb;
+    border: 1px dashed #c9c9c9;
+    border-radius: 0.35rem;
+    color: #706e6b;
+    padding: 0.75rem;
+}

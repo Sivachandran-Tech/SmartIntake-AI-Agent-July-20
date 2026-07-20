@@ -1,0 +1,26 @@
+<template>
+    <div class={launcherShellClass}>
+        <template if:true={errorMessage}>
+            <div class="launcher-error" role="status">{errorMessage}</div>
+        </template>
+
+        <button
+            class="launcher"
+            type="button"
+            title={computedAriaLabel}
+            aria-label={computedAriaLabel}
+            onclick={handleLaunch}
+            disabled={isLaunching}
+        >
+            <span class="launcher__mark" aria-hidden="true">
+                <span class="bot-logo">
+                    <svg class="bot-logo__svg" viewBox={botLogoViewBox} xmlns="http://www.w3.org/2000/svg" focusable="false">
+                        <image class="bot-logo__image" href={botLogoUrl} x="0" y="0" width="1254" height="1254"></image>
+                    </svg>
+                    <span class="bot-logo__eye bot-logo__eye_left"></span>
+                    <span class="bot-logo__eye bot-logo__eye_right"></span>
+                </span>
+            </span>
+        </button>
+    </div>
+</template>

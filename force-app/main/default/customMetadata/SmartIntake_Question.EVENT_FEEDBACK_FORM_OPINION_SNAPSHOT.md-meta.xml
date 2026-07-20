@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>We want your opinion!</label>
+    <protected>false</protected>
+    <values>
+        <field>Accepted_Input_Formats__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Confirm_AI_Extracted_Answer__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Data_Source_Key__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Help_Text__c</field>
+        <value xsi:type="xsd:string">How satisfied are you with the event?</value>
+    </values>
+    <values>
+        <field>Input_Type__c</field>
+        <value xsi:type="xsd:string">LONG_TEXT</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Is_Required__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Placeholder_Text__c</field>
+        <value xsi:type="xsd:string">Please fill in your answer</value>
+    </values>
+    <values>
+        <field>Question_Key__c</field>
+        <value xsi:type="xsd:string">OPINION_SNAPSHOT</value>
+    </values>
+    <values>
+        <field>Question_Order__c</field>
+        <value xsi:type="xsd:double">30.0</value>
+    </values>
+    <values>
+        <field>Question_Text__c</field>
+        <value xsi:type="xsd:string">We want your opinion!</value>
+    </values>
+    <values>
+        <field>Render_Lightning_Input__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Template_Key__c</field>
+        <value xsi:type="xsd:string">EVENT_FEEDBACK_FORM</value>
+    </values>
+    <values>
+        <field>UI_Control__c</field>
+        <value xsi:type="xsd:string">smartintake:opinionSurvey</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,42 @@
+{
+  "required" : [ "matchFieldKey", "matchValue" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated answers JSON. Pass from the latest SmartIntake action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "matchFieldKey" : {
+      "title" : "Match Field Key",
+      "description" : "Metadata field key used for matching, for example guestName or email. Use the matching key configured for the current question.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "matchValue" : {
+      "title" : "Match Value",
+      "description" : "User-provided value to search for in existing Salesforce records. Usually pass the current answer value.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Route key for SmartIntake. Set from $Context.Current_Page so Apex can resolve the template from routing metadata. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Legacy builder compatibility field. Leave blank when SmartIntake resolves the template from context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

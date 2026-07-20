@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Calls the generic SmartIntake_Turn_Interpreter Prompt Builder template to classify the latest user turn. Does not perform SmartIntake business logic.</description>
+    <developerName>SmartIntake_Interpret_Turn_With_Prompt_Template</developerName>
+    <invocationTarget>SmartIntakeTurnInterpreterAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Interpret_Turn_With_Prompt_Template</localDeveloperName>
+    <masterLabel>SmartIntake - Interpret Turn With Prompt Template</masterLabel>
+</GenAiFunction>

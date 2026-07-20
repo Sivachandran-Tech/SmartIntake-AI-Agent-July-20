@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Hotel Arrival Date Minimum</label>
+    <protected>false</protected>
+    <values>
+        <field>Error_Message__c</field>
+        <value xsi:type="xsd:string">Arrival date must be today or a future date.</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Max_Date__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Max_Length__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Max_Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Min_Date__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Min_Length__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Min_Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Question_Key__c</field>
+        <value xsi:type="xsd:string">arrival_date</value>
+    </values>
+    <values>
+        <field>Regex__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">10.0</value>
+    </values>
+    <values>
+        <field>Template_Key__c</field>
+        <value xsi:type="xsd:string">HOTEL_BOOKING_BASIC_V1</value>
+    </values>
+    <values>
+        <field>Validation_Rule_Key__c</field>
+        <value xsi:type="xsd:string">arrival_date_today_or_future</value>
+    </values>
+    <values>
+        <field>Validation_Type__c</field>
+        <value xsi:type="xsd:string">MIN_TODAY</value>
+    </values>
+</CustomMetadata>

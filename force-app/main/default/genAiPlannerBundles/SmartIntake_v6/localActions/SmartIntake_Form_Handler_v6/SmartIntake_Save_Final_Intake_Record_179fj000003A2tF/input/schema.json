@@ -1,0 +1,50 @@
+{
+  "required" : [ "answersJson", "confirmed", "templateKey" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "agentSessionKey" : {
+      "title" : "Agent Session Key",
+      "description" : "Stable agent session key if available. Pass automatically from session context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Final accumulated answers JSON collected during the intake session. Pass from the latest SmartIntake action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "confirmed" : {
+      "title" : "Confirmed",
+      "description" : "True only after the user has reviewed the collected answers and confirmed they are ready to submit.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "consentAccepted" : {
+      "title" : "Consent Accepted",
+      "description" : "True if the user accepted required consent before final save. Pass false or leave blank when consent is not required.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Current SmartIntake session id. Pass from previous action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Metadata template key for the intake form, for example HOTEL_BOOKING_BASIC_V1.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

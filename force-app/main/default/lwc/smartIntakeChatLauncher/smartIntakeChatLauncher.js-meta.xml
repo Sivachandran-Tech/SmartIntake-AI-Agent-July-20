@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>SmartIntake Chat Launcher</masterLabel>
+    <description>Custom SmartIntake launcher for Enhanced Chat.</description>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="eyebrow" type="String" label="Eyebrow" default="Need help?"/>
+            <property name="label" type="String" label="Label" default="SmartIntake"/>
+            <property name="accessibilityLabel" type="String" label="Accessibility Label" default="Open SmartIntake chat"/>
+            <property name="startNewConversation" type="Boolean" label="Start New Conversation" default="false"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

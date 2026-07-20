@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Returns only the existing CRM context configured for the current SmartIntake question and current page context.</description>
+    <developerName>SmartIntake_Get_Existing_Context_By_Context</developerName>
+    <invocationTarget>SmartIntakeGetExistingContextAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Get_Existing_Context_By_Context</localDeveloperName>
+    <masterLabel>SmartIntake - Get Existing Context By Context</masterLabel>
+</GenAiFunction>

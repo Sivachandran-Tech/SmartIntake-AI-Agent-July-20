@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Returns the metadata-driven human handoff plan and readiness state for the current SmartIntake context or session.</description>
+    <developerName>SmartIntake_Get_Handoff_Plan</developerName>
+    <invocationTarget>SmartIntakeHandoffByContextAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Get_Handoff_Plan</localDeveloperName>
+    <masterLabel>SmartIntake - Get Handoff Plan By Context</masterLabel>
+</GenAiFunction>

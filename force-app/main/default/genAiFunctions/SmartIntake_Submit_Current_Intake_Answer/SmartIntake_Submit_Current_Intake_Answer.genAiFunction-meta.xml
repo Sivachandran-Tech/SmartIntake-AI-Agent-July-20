@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Stores the answer for the current metadata-driven SmartIntake session question without letting the agent choose the question key.</description>
+    <developerName>SmartIntake_Submit_Current_Intake_Answer</developerName>
+    <invocationTarget>SmartIntakeSubmitCurrentAnswerAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Submit_Current_Intake_Answer</localDeveloperName>
+    <masterLabel>SmartIntake - Submit Current Intake Answer</masterLabel>
+</GenAiFunction>

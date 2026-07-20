@@ -1,0 +1,215 @@
+.product-selector {
+    display: block;
+    color: #181818;
+}
+
+.product-selector__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.product-selector__eyebrow {
+    margin: 0 0 0.125rem;
+    color: #5c5c5c;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.product-selector__header h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.product-selector__help {
+    margin: 0.25rem 0 0;
+    color: #5c5c5c;
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.product-selector__selected-pill {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: #eaf5ee;
+    color: #22683e;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
+}
+
+.product-selector__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-selector__count {
+    color: #5c5c5c;
+    font-size: 0.75rem;
+    min-width: 4rem;
+    text-align: center;
+}
+
+.product-selector__nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #d8dde6;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #444444;
+    cursor: pointer;
+}
+
+.product-selector__nav-button:disabled {
+    cursor: default;
+    opacity: 0.45;
+}
+
+.product-selector__viewport {
+    overflow: hidden;
+}
+
+.product-selector__track {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.product-card {
+    min-width: 0;
+}
+
+.product-card__button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 13.75rem;
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    color: inherit;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.product-card__button:hover,
+.product-card__button:focus {
+    border-color: #0176d3;
+    box-shadow: 0 0 0 1px rgba(1, 118, 211, 0.25), 0 0.35rem 1rem rgba(24, 24, 24, 0.12);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.product-card_selected .product-card__button {
+    border-color: #0176d3;
+    box-shadow: 0 0 0 2px rgba(1, 118, 211, 0.2);
+}
+
+.product-card__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #f3f4f6;
+}
+
+.product-card__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.5rem;
+}
+
+.product-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #eaf3ff, #f5f7fb);
+    color: #1f4e79;
+    font-size: 1.35rem;
+    font-weight: 800;
+}
+
+.product-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.65rem;
+}
+
+.product-card__body h3 {
+    display: -webkit-box;
+    margin: 0;
+    color: #181818;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.25;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.product-card__subtitle,
+.product-card__meta,
+.product-card__status {
+    margin: 0;
+    color: #5c5c5c;
+    font-size: 0.74rem;
+    line-height: 1.3;
+}
+
+.product-card__price {
+    margin: 0.1rem 0 0;
+    color: #181818;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.product-card__status {
+    color: #22683e;
+    font-weight: 700;
+}
+
+.product-selector__empty {
+    border: 1px dashed #d8dde6;
+    border-radius: 0.5rem;
+    color: #5c5c5c;
+    padding: 1rem;
+    text-align: center;
+}
+
+.product-selector__empty p {
+    margin: 0;
+}
+
+.product-selector__error {
+    margin: 0.5rem 0 0;
+    color: #ba0517;
+    font-size: 0.75rem;
+}
+
+@media (max-width: 360px) {
+    .product-selector__track {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

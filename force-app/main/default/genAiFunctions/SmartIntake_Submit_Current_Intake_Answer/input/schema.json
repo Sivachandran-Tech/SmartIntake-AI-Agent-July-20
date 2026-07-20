@@ -1,0 +1,55 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "agentSessionKey" : {
+      "title" : "Agent Session Key",
+      "description" : "Stable agent session key if available. Pass automatically from session context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answerCapture" : {
+      "title" : "Answer Capture",
+      "description" : "Structured answer captured by the SmartIntake input renderer for the current question.",
+      "lightning:type" : "c__smartIntakeAnswerCapture",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated answers JSON. Pass from previous action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answerValue" : {
+      "title" : "Answer Value",
+      "description" : "Plain text fallback answer from the user when structured answer capture is unavailable.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Current SmartIntake session id. Pass from previous action output.\n",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Page, channel, or deployment context key used to resolve the SmartIntake template. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Don't consider this",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

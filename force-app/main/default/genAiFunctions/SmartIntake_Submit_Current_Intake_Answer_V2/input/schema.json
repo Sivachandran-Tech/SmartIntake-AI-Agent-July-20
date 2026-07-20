@@ -1,0 +1,56 @@
+{
+  "required" : [ "answerValue" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "agentSessionKey" : {
+      "title" : "Agent Session Key",
+      "description" : "Stable agent session key if available. Pass automatically from session context. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answerCapture" : {
+      "title" : "Answer Capture",
+      "description" : "Legacy structured answer capture. Leave blank for Enhanced Chat; use Answer Value as the user-provided answer.",
+      "lightning:type" : "c__smartIntakeAnswerCapture",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated answers JSON. Pass from the latest SmartIntake action output. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answerValue" : {
+      "title" : "Answer Value",
+      "description" : "The user's answer to the currently displayed SmartIntake question. Use the latest user message or selected value from the rendered question control.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Current SmartIntake session id. Pass from the latest SmartIntake action output. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "routableId" : {
+      "title" : "Routable Id",
+      "description" : "Messaging session or voice call record id. Pass from system context when available.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Route key for SmartIntake. Set from $Context.Current_Page so Apex can resolve the template from routing metadata. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

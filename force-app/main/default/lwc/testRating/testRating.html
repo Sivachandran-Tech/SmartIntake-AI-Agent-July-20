@@ -1,0 +1,34 @@
+<template>
+    <div class="star-rating-container">
+        <!-- Question label (shown only when not readOnly, i.e. in editor mode) -->
+        <template if:false={readOnly}>
+            <p class="rating-label">Tap a star to select your rating</p>
+        </template>
+
+        <!-- Star buttons -->
+        <div class="stars-row" role="radiogroup" aria-label="Star rating">
+            <template for:each={stars} for:item="star">
+                <button
+                    key={star.value}
+                    class={star.buttonClass}
+                    data-value={star.value}
+                    disabled={readOnly}
+                    aria-label={star.ariaLabel}
+                    aria-checked={star.isSelected}
+                    onclick={handleStarClick}
+                    type="button">
+                    <lightning-icon
+                        icon-name="utility:favorite"
+                        size="medium"
+                        class={star.iconClass}>
+                    </lightning-icon>
+                </button>
+            </template>
+        </div>
+
+        <!-- Selected value feedback -->
+        <template if:true={hasSelection}>
+            <p class="rating-feedback">{ratingFeedback}</p>
+        </template>
+    </div>
+</template>

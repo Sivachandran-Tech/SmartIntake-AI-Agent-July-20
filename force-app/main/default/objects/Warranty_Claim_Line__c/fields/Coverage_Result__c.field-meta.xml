@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coverage_Result__c</fullName>
+    <label>Coverage Result</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Covered</fullName>
+                <default>true</default>
+                <label>Covered</label>
+            </value>
+            <value>
+                <fullName>Not Covered</fullName>
+                <default>false</default>
+                <label>Not Covered</label>
+            </value>
+            <value>
+                <fullName>Pending Review</fullName>
+                <default>false</default>
+                <label>Pending Review</label>
+            </value>
+            <value>
+                <fullName>Needs Documents</fullName>
+                <default>false</default>
+                <label>Needs Documents</label>
+            </value>
+            <value>
+                <fullName>Safety Escalation</fullName>
+                <default>false</default>
+                <label>Safety Escalation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

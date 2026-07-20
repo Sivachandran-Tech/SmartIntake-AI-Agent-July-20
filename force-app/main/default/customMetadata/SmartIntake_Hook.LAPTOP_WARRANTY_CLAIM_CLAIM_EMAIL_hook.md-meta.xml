@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Claim Email OTP Hook</label>
+    <protected>false</protected>
+    <values>
+        <field>Answers_JSON_Output_Variable__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Block_Continue_Output_Variable__c</field>
+        <value xsi:type="xsd:string">blockContinue</value>
+    </values>
+    <values>
+        <field>Event__c</field>
+        <value xsi:type="xsd:string">AFTER_ANSWER</value>
+    </values>
+    <values>
+        <field>Flow_API_Name__c</field>
+        <value xsi:type="xsd:string">Warranty_Email_Check_Send_OTP</value>
+    </values>
+    <values>
+        <field>Flow_Input_Mappings__c</field>
+        <value xsi:type="xsd:string">customerEmail &lt;- answerValue
+otpQuestionKey &lt;- &apos;VERIFY_EMAIL_OTP&apos;</value>
+    </values>
+    <values>
+        <field>Flow_Output_Mappings__c</field>
+        <value xsi:type="xsd:string">assetId -&gt; ASSET_ID
+assetName -&gt; ASSET_NAME
+assetWarrantyId -&gt; ASSET_WARRANTY_ID
+availableProductsJson -&gt; AVAILABLE_PRODUCTS
+contactId -&gt; CONTACT_ID
+emailRegistered -&gt; EMAIL_REGISTERED
+maskedEmail -&gt; MASKED_EMAIL
+otpSent -&gt; OTP_SENT
+otpVerificationId -&gt; OTP_VERIFICATION_ID
+productId -&gt; PRODUCT_ID
+productName -&gt; PRODUCT_NAME
+productCode -&gt; PRODUCT_CODE
+serialNumber -&gt; SERIAL_NUMBER
+warrantyFound -&gt; WARRANTY_FOUND
+warrantyStatus -&gt; WARRANTY_STATUS</value>
+    </values>
+    <values>
+        <field>Handler_Type__c</field>
+        <value xsi:type="xsd:string">FLOW</value>
+    </values>
+    <values>
+        <field>Hook_Key__c</field>
+        <value xsi:type="xsd:string">CLAIM_EMAIL_hook</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Next_Question_Output_Variable__c</field>
+        <value xsi:type="xsd:string">nextQuestionKey</value>
+    </values>
+    <values>
+        <field>Output_Mode__c</field>
+        <value xsi:type="xsd:string">BASIC_OUTPUT_MAPPING</value>
+    </values>
+    <values>
+        <field>Question_Key__c</field>
+        <value xsi:type="xsd:string">CLAIM_EMAIL</value>
+    </values>
+    <values>
+        <field>Sort_Order__c</field>
+        <value xsi:type="xsd:double">10.0</value>
+    </values>
+    <values>
+        <field>Success_Output_Variable__c</field>
+        <value xsi:type="xsd:string">success</value>
+    </values>
+    <values>
+        <field>Template_Key__c</field>
+        <value xsi:type="xsd:string">LAPTOP_WARRANTY_CLAIM</value>
+    </values>
+    <values>
+        <field>User_Message_Output_Variable__c</field>
+        <value xsi:type="xsd:string">userMessage</value>
+    </values>
+</CustomMetadata>

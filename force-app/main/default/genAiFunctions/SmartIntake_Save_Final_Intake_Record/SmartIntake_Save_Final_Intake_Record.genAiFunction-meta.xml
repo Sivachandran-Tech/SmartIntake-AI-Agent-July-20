@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Creates the configured Salesforce record for the completed SmartIntake session after the user confirms the collected answers.</description>
+    <developerName>SmartIntake_Save_Final_Intake_Record</developerName>
+    <invocationTarget>SmartIntakeSaveByContextAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Save_Final_Intake_Record</localDeveloperName>
+    <masterLabel>SmartIntake - Save Final Intake Record By Context</masterLabel>
+</GenAiFunction>

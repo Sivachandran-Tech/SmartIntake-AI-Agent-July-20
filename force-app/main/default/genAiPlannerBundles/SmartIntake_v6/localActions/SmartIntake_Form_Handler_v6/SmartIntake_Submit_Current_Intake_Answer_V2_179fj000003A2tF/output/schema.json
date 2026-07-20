@@ -1,0 +1,169 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "adminMessage" : {
+      "title" : "Admin Message",
+      "description" : "Internal error detail for admins. Do not show to the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "answerCaptureTemplate" : {
+      "title" : "Answer Capture Template",
+      "description" : "Legacy internal answer capture template. Do not display directly; currentQuestion owns the Enhanced Chat renderer.",
+      "lightning:type" : "c__smartIntakeAnswerCapture",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Updated accumulated answers JSON. Pass to the next SmartIntake action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "brandingJson" : {
+      "title" : "Branding JSON",
+      "description" : "Branding configuration for the SmartIntake experience.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "consentMessage" : {
+      "title" : "Consent Message",
+      "description" : "Message to show when consent is required before continuing.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "currentQuestion" : {
+      "title" : "Current Question Contract",
+      "description" : "Structured next question contract for the SmartIntakeQuestionLTI custom renderer.",
+      "lightning:type" : "c__SmartIntakeQuestionLTI",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorCode" : {
+      "title" : "Error Code",
+      "description" : "Machine-readable error code for debugging failed action runs.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorType" : {
+      "title" : "Error Type",
+      "description" : "Category of error when success is false.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Session id to pass to every subsequent SmartIntake action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "isComplete" : {
+      "title" : "Is Complete",
+      "description" : "True when all required intake questions are answered.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "primaryRecordId" : {
+      "title" : "Primary Record Id",
+      "description" : "Salesforce record id after final save. Usually blank for this action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "progressJson" : {
+      "title" : "Progress JSON",
+      "description" : "Progress state for rendering or summarizing intake completion.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "questionJson" : {
+      "title" : "Question JSON",
+      "description" : "Full next-question details including text, type, options, and validation metadata.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "requiresConsent" : {
+      "title" : "Requires Consent",
+      "description" : "True when the user must accept consent before continuing.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "requiresFinalConfirmation" : {
+      "title" : "Requires Final Confirmation",
+      "description" : "True when all answers are collected and final confirmation is needed.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "success" : {
+      "title" : "Success",
+      "description" : "False if the answer could not be saved or validated.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Echo of the template key used for this intake session.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "userMessage" : {
+      "title" : "User Message",
+      "description" : "User-facing message to show when present, especially validation errors or next-step guidance.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

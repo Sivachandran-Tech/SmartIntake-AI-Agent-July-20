@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Finds an existing Salesforce record using SmartIntake matching metadata, the current page context, and the user&apos;s current answer value.</description>
+    <developerName>SmartIntake_Find_Existing_Record_By_Context</developerName>
+    <invocationTarget>SmartIntakeFindExistingRecordAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Find_Existing_Record_By_Context</localDeveloperName>
+    <masterLabel>SmartIntake - Find Existing Record By Context</masterLabel>
+</GenAiFunction>

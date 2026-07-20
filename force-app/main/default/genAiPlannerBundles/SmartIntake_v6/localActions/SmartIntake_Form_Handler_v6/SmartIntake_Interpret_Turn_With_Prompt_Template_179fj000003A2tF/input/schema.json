@@ -1,0 +1,78 @@
+{
+  "required" : [ "latestUserMessage" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "answerCapturePlanJson" : {
+      "title" : "Answer Capture Plan JSON",
+      "description" : "JSON list of configured answer slots and semantic hints.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated SmartIntake answers JSON.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "conversationStateJson" : {
+      "title" : "Conversation State JSON",
+      "description" : "Current SmartIntake flow state JSON, including pending confirmation and final review state when present.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "currentQuestionJson" : {
+      "title" : "Current Question JSON",
+      "description" : "JSON for the currently active SmartIntake question.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "latestUserMessage" : {
+      "title" : "Latest User Message",
+      "description" : "Latest customer message to interpret.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "pendingConfirmation" : {
+      "title" : "Pending Confirmation",
+      "description" : "True when the latest SmartIntake state is waiting for a confirmation answer.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "recentMessagesJson" : {
+      "title" : "Recent Messages JSON",
+      "description" : "Recent chat history needed for context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "recommendedNextStep" : {
+      "title" : "Recommended Next Step",
+      "description" : "Recommended next SmartIntake step returned by Apex.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "rendererMode" : {
+      "title" : "Renderer Mode",
+      "description" : "Renderer mode returned by SmartIntake, such as TEXT, CUSTOM_LWC, LIGHTNING_INPUT, OPTIONS, or PENDING_CONFIRMATION.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "requiresFinalConfirmation" : {
+      "title" : "Requires Final Confirmation",
+      "description" : "True when SmartIntake is waiting on final review confirmation.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows custom permissions for Agentforce Agent : SmartIntake_New&apos;s agent user : smartintake_new@00dfj00000uvms51532858837.ext.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>SmartIntake_New1647374054 Permissions</label>
+    <license>Einstein Agent</license>
+</PermissionSet>

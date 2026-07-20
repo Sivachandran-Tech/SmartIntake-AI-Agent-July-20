@@ -1,0 +1,27 @@
+<template>
+    <section class="picker" aria-label={ariaLabel}>
+        <template if:true={hasOptions}>
+            <div class="option-grid" role="radiogroup" aria-label={ariaLabel}>
+                <template for:each={normalizedOptions} for:item="option">
+                    <button
+                        key={option.value}
+                        type="button"
+                        class={option.className}
+                        data-value={option.value}
+                        aria-checked={option.selected}
+                        role="radio"
+                        onclick={handleSelect}>
+                        <span class="option-title">{option.label}</span>
+                        <span class="option-value">{option.value}</span>
+                    </button>
+                </template>
+            </div>
+        </template>
+
+        <template if:false={hasOptions}>
+            <div class="empty-state" role="status">
+                Add options to this SmartIntake question before using this picker.
+            </div>
+        </template>
+    </section>
+</template>

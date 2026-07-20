@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Purchase Receipt</fullName>
+                <default>true</default>
+                <label>Purchase Receipt</label>
+            </value>
+            <value>
+                <fullName>Serial Number Photo</fullName>
+                <default>false</default>
+                <label>Serial Number Photo</label>
+            </value>
+            <value>
+                <fullName>Damage Photo</fullName>
+                <default>false</default>
+                <label>Damage Photo</label>
+            </value>
+            <value>
+                <fullName>Diagnostic Report</fullName>
+                <default>false</default>
+                <label>Diagnostic Report</label>
+            </value>
+            <value>
+                <fullName>Shipping Label</fullName>
+                <default>false</default>
+                <label>Shipping Label</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

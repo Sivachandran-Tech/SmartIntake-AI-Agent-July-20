@@ -1,0 +1,172 @@
+<template>
+    <section class="slds-box slds-box_x-small" aria-label="SmartIntake answer">
+        <template if:true={showStandardQuestionHeader}>
+            <div class="slds-text-heading_small slds-m-bottom_x-small">{questionText}</div>
+            <template if:true={helpText}>
+                <div class="slds-text-body_small slds-m-bottom_small">{helpText}</div>
+            </template>
+        </template>
+
+        <template if:true={isProductSelector}>
+            <c-smart-intake-product-selector
+                question={value}
+                value={answerValue}
+                read-only={readOnly}
+                required={required}
+                onvaluechange={handleCustomLwcValueChange}>
+            </c-smart-intake-product-selector>
+        </template>
+
+        <!-- Dynamic Custom LWC Rendering -->
+        <template if:true={isCustomLwc}>
+            <!-- Loading State Spinner -->
+            <template if:true={isLoadingCustomComponent}>
+                <div class="slds-p-around_medium slds-align_absolute-center" style="position: relative; min-height: 4rem;">
+                    <lightning-spinner alternative-text="Loading custom component..." size="small"></lightning-spinner>
+                </div>
+            </template>
+            
+            <!-- Render Custom Component -->
+            <template if:false={isLoadingCustomComponent}>
+                <template if:true={dynamicConstructor}>
+                    <lwc:component
+                        lwc:is={dynamicConstructor}
+                        question={value}
+                        value={answerValue}
+                        read-only={readOnly}
+                        required={required}
+                        onvaluechange={handleCustomLwcValueChange}>
+                    </lwc:component>
+                </template>
+                
+                <!-- Fallback Input on Load Failure -->
+                <template if:true={dynamicLoadError}>
+                    <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small" role="alert">
+                        <span class="slds-assistive-text">error</span>
+                        <h2>Error loading custom editor ({uiControl}): {dynamicLoadError}. Falling back to text input.</h2>
+                    </div>
+                    <lightning-input
+                        type="text"
+                        label={questionText}
+                        variant="label-hidden"
+                        value={answerValue}
+                        placeholder={placeholderText}
+                        required={required}
+                        disabled={readOnly}
+                        onchange={handleInputChange}>
+                    </lightning-input>
+                </template>
+            </template>
+        </template>
+
+        <template if:true={isCombobox}>
+            <lightning-combobox
+                label={questionText}
+                variant="label-hidden"
+                value={answerValue}
+                placeholder={placeholderText}
+                options={picklistOptions}
+                required={required}
+                disabled={readOnly}
+                onchange={handleInputChange}>
+            </lightning-combobox>
+        </template>
+
+        <template if:true={isRadioGroup}>
+            <lightning-radio-group
+                label={questionText}
+                variant="label-hidden"
+                value={answerValue}
+                options={picklistOptions}
+                required={required}
+                disabled={readOnly}
+                type="radio"
+                onchange={handleInputChange}>
+            </lightning-radio-group>
+        </template>
+
+        <template if:true={isCheckboxGroup}>
+            <lightning-checkbox-group
+                label={questionText}
+                value={multiAnswerValue}
+                options={picklistOptions}
+                required={required}
+                disabled={readOnly}
+                onchange={handleMultiAnswerChange}>
+            </lightning-checkbox-group>
+        </template>
+
+        <template if:true={isTextarea}>
+            <lightning-textarea
+                label={questionText}
+                variant="label-hidden"
+                value={answerValue}
+                placeholder={placeholderText}
+                required={required}
+                disabled={readOnly}
+                onchange={handleInputChange}>
+            </lightning-textarea>
+        </template>
+
+        <template if:true={isFileUpload}>
+            <lightning-file-upload
+                label={fileUploadLabel}
+                accept={fileAcceptedFormats}
+                multiple={fileUploadMultiple}
+                disabled={readOnly}
+                onuploadfinished={handleFileUploadFinished}>
+            </lightning-file-upload>
+        </template>
+
+        <template if:true={isEventPulseRating}>
+            <c-event-pulse-rating
+                value={answerValue}
+                read-only={readOnly}
+                required={required}
+                onvaluechange={handleCustomLwcValueChange}>
+            </c-event-pulse-rating>
+        </template>
+
+        <template if:true={isConfiguredControl}>
+            <c-smart-intake-configured-control
+                question={value}
+                value={answerValue}
+                read-only={readOnly}
+                required={required}
+                onvaluechange={handleCustomLwcValueChange}>
+            </c-smart-intake-configured-control>
+        </template>
+
+        <template if:true={isSmileRating}>
+            <c-smile-rating
+                value={answerValue}
+                read-only={readOnly}
+                required={required}
+                onvaluechange={handleCustomLwcValueChange}>
+            </c-smile-rating>
+        </template>
+
+        <template if:true={isTestRating}>
+            <c-test-rating
+                value={answerValue}
+                read-only={readOnly}
+                required={required}
+                onvaluechange={handleCustomLwcValueChange}>
+            </c-test-rating>
+        </template>
+
+        <template if:true={isLightningInput}>
+            <lightning-input
+                type={lightningInputType}
+                label={questionText}
+                variant="label-hidden"
+                value={answerValue}
+                checked={booleanAnswerValue}
+                placeholder={placeholderText}
+                required={required}
+                disabled={readOnly}
+                onchange={handleInputChange}>
+            </lightning-input>
+        </template>
+    </section>
+</template>

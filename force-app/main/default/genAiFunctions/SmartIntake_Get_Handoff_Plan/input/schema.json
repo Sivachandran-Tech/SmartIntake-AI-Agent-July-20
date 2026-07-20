@@ -1,0 +1,43 @@
+{
+  "required" : [ ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "consentAccepted" : {
+      "title" : "Consent Accepted",
+      "description" : "True if the user already accepted consent to share intake context with a human agent.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "contextSummaryJson" : {
+      "title" : "Context Summary JSON",
+      "description" : "JSON summary of the intake answers and context to share during handoff when context sharing is enabled.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Current SmartIntake session id. Pass from previous SmartIntake action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "reason" : {
+      "title" : "Handoff Reason",
+      "description" : "Reason the user or agent is requesting human handoff, such as user request, complex issue, or failed automation.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Route key for SmartIntake. Set from $Context.Current_Page so Apex can resolve the template from routing metadata. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

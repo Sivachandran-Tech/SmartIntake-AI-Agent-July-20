@@ -1,0 +1,223 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "adminMessage" : {
+      "title" : "Admin Message",
+      "description" : "Internal error detail for admins. Do not show to the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "availabilityStatus" : {
+      "title" : "Availability Status",
+      "description" : "Current availability state for the configured handoff provider or channel.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "consentAccepted" : {
+      "title" : "Consent Accepted",
+      "description" : "True when the user has accepted consent for handoff context sharing.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "consentMessage" : {
+      "title" : "Consent Message",
+      "description" : "User-facing consent message to show before sharing intake context with a human agent.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "contextFieldsToShare" : {
+      "title" : "Context Fields To Share",
+      "description" : "List of configured context fields that can be shared during handoff.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "contextSharingEnabled" : {
+      "title" : "Context Sharing Enabled",
+      "description" : "True when SmartIntake should share intake context during handoff.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "contextSummaryJson" : {
+      "title" : "Context Summary JSON",
+      "description" : "JSON summary of the context prepared for the handoff.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "declinedMessage" : {
+      "title" : "Declined Message",
+      "description" : "User-facing message to show if the user declines consent or handoff.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "embeddedServiceDeploymentName" : {
+      "title" : "Embedded Service Deployment Name",
+      "description" : "Embedded Service deployment name configured for handoff.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorCode" : {
+      "title" : "Error Code",
+      "description" : "Machine-readable error code for debugging handoff failures.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorType" : {
+      "title" : "Error Type",
+      "description" : "Category of error when success is false.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "handoffEnabled" : {
+      "title" : "Handoff Enabled",
+      "description" : "True when handoff is enabled for this SmartIntake template.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "handoffMessage" : {
+      "title" : "Handoff Message",
+      "description" : "User-facing message explaining the handoff path. Show this when handoff is available.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "handoffReady" : {
+      "title" : "Handoff Ready",
+      "description" : "True when all handoff configuration and readiness checks pass.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "handoffUrl" : {
+      "title" : "Handoff URL",
+      "description" : "URL or launch target for the configured handoff experience, when available.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "messagingChannelDeveloperName" : {
+      "title" : "Messaging Channel Developer Name",
+      "description" : "Messaging channel developer name configured for handoff.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "offlineMessage" : {
+      "title" : "Offline Message",
+      "description" : "User-facing message to show when live handoff is unavailable.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "providerType" : {
+      "title" : "Provider Type",
+      "description" : "Type of handoff provider configured for this template.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "queueDeveloperName" : {
+      "title" : "Queue Developer Name",
+      "description" : "Queue developer name configured for handoff routing.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "readinessWarningsJson" : {
+      "title" : "Readiness Warnings JSON",
+      "description" : "JSON list of setup warnings found while checking handoff readiness.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "requiresConsent" : {
+      "title" : "Requires Consent",
+      "description" : "True when user consent is required before handoff can proceed.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "success" : {
+      "title" : "Success",
+      "description" : "True when the handoff plan was loaded successfully.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "triggerMessage" : {
+      "title" : "Trigger Message",
+      "description" : "User-facing message that explains why handoff is being offered.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "userMessage" : {
+      "title" : "User Message",
+      "description" : "User-facing handoff status or error message. Show this when present.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

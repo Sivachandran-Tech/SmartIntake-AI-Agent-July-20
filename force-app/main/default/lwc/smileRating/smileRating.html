@@ -1,0 +1,30 @@
+<template>
+    <div class="smile-rating-container">
+        <!-- Question label (shown only when not readOnly, i.e. in editor mode) -->
+        <template if:false={readOnly}>
+            <p class="rating-label">Tap a face to rate your experience</p>
+        </template>
+
+        <!-- Smile buttons -->
+        <div class="smiles-row" role="radiogroup" aria-label="Smile rating">
+            <template for:each={smiles} for:item="smile">
+                <button
+                    key={smile.value}
+                    class={smile.buttonClass}
+                    data-value={smile.value}
+                    disabled={readOnly}
+                    aria-label={smile.ariaLabel}
+                    aria-checked={smile.isSelected}
+                    onclick={handleSmileClick}
+                    type="button">
+                    <span class="smile-emoji" aria-hidden="true">{smile.emoji}</span>
+                </button>
+            </template>
+        </div>
+
+        <!-- Selected value feedback -->
+        <template if:true={hasSelection}>
+            <p class="rating-feedback">{ratingFeedback}</p>
+        </template>
+    </div>
+</template>

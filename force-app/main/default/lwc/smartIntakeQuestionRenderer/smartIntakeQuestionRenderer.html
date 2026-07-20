@@ -1,0 +1,189 @@
+<template>
+    <template if:true={shouldRenderQuestionShell}>
+        <section class="slds-box slds-box_x-small" aria-label="SmartIntake question">
+            <template if:true={showStandardQuestionHeader}>
+                <div class="slds-text-heading_small slds-m-bottom_x-small">{questionText}</div>
+                <template if:true={hasReviewItems}>
+                    <dl class="review-snapshot" aria-label="Review answers">
+                        <template for:each={reviewItems} for:item="item">
+                            <div key={item.key} class="review-snapshot__row">
+                                <dt>{item.label}</dt>
+                                <dd>{item.value}</dd>
+                            </div>
+                        </template>
+                    </dl>
+                </template>
+                <template if:true={helpText}>
+                    <div class="slds-text-body_small slds-m-bottom_small">{helpText}</div>
+                </template>
+            </template>
+
+            <template if:true={renderLightningInput}>
+                <template if:true={isProductSelector}>
+                    <c-smart-intake-product-selector
+                        question={value}
+                        value={displayValue}
+                        required={required}
+                        hide-prompt={suppressEmbeddedPrompt}
+                        onvaluechange={handleCustomLwcValueChange}>
+                    </c-smart-intake-product-selector>
+                </template>
+
+                <template if:true={isCustomLwc}>
+                    <template if:true={isLoadingCustomComponent}>
+                        <div class="slds-p-around_medium slds-align_absolute-center custom-loader">
+                            <lightning-spinner alternative-text="Loading custom input..." size="small"></lightning-spinner>
+                        </div>
+                    </template>
+
+                    <template if:false={isLoadingCustomComponent}>
+                        <template if:true={dynamicConstructor}>
+                            <lwc:component
+                                lwc:is={dynamicConstructor}
+                                question={value}
+                                value={displayValue}
+                                required={required}
+                                onvaluechange={handleCustomLwcValueChange}>
+                            </lwc:component>
+                        </template>
+
+                        <template if:true={dynamicLoadError}>
+                            <div class="slds-notify slds-notify_alert slds-alert_error slds-m-bottom_small" role="alert">
+                                <span class="slds-assistive-text">error</span>
+                                <h2>Error loading custom input ({uiControl}): {dynamicLoadError}. Falling back to text input.</h2>
+                            </div>
+                            <lightning-input
+                                type="text"
+                                label={questionText}
+                                variant="label-hidden"
+                                value={displayValue}
+                                placeholder={placeholderText}
+                                required={required}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </template>
+                    </template>
+                </template>
+
+                <template if:true={isCombobox}>
+                    <lightning-combobox
+                        label={questionText}
+                        variant="label-hidden"
+                        value={displayValue}
+                        placeholder={placeholderText}
+                        options={picklistOptions}
+                        required={required}
+                        onchange={handleChoiceChange}>
+                    </lightning-combobox>
+                </template>
+
+                <template if:true={isRadioGroup}>
+                    <lightning-radio-group
+                        label={questionText}
+                        variant="label-hidden"
+                        value={displayValue}
+                        options={picklistOptions}
+                        required={required}
+                        onchange={handleChoiceChange}
+                        type="radio">
+                    </lightning-radio-group>
+                </template>
+
+                <template if:true={isCheckboxGroup}>
+                    <lightning-checkbox-group
+                        label={questionText}
+                        variant="label-hidden"
+                        value={multiAnswerValue}
+                        options={picklistOptions}
+                        required={required}
+                        onchange={handleMultiAnswerChange}>
+                    </lightning-checkbox-group>
+                </template>
+
+                <template if:true={isTextarea}>
+                    <lightning-textarea
+                        label={questionText}
+                        variant="label-hidden"
+                        value={displayValue}
+                        placeholder={placeholderText}
+                        required={required}
+                        onchange={handleInputChange}>
+                    </lightning-textarea>
+                </template>
+
+                <template if:true={isFileUpload}>
+                    <div class="slds-text-body_small">File upload is available when answering this question.</div>
+                </template>
+
+                <template if:true={isEventPulseRating}>
+                    <c-event-pulse-rating
+                        value={displayValue}
+                        required={required}
+                        onvaluechange={handleCustomLwcValueChange}>
+                    </c-event-pulse-rating>
+                </template>
+
+                <template if:true={isConfiguredControl}>
+                    <c-smart-intake-configured-control
+                        question={value}
+                        value={displayValue}
+                        required={required}
+                        onvaluechange={handleCustomLwcValueChange}>
+                    </c-smart-intake-configured-control>
+                </template>
+
+                <template if:true={isStarRating}>
+                    <div class="stars-row" role="radiogroup" aria-label="Star rating">
+                        <template for:each={ratingStars} for:item="star">
+                            <button
+                                key={star.value}
+                                type="button"
+                                class={star.buttonClass}
+                                data-value={star.value}
+                                aria-label={star.ariaLabel}
+                                aria-checked={star.isSelected}
+                                onclick={handleStarClick}>
+                                <lightning-icon icon-name="utility:favorite" size="medium" class={star.iconClass}></lightning-icon>
+                            </button>
+                        </template>
+                    </div>
+                    <template if:true={ratingFeedback}>
+                        <div class="rating-feedback">{ratingFeedback}</div>
+                    </template>
+                </template>
+
+                <template if:true={isSmileRating}>
+                    <div class="smiles-row" role="radiogroup" aria-label="Smile rating">
+                        <template for:each={smileOptions} for:item="option">
+                            <button
+                                key={option.value}
+                                type="button"
+                                class={option.buttonClass}
+                                data-value={option.value}
+                                aria-label={option.ariaLabel}
+                                onclick={handleSmileClick}>
+                                <span aria-hidden="true">{option.emoji}</span>
+                            </button>
+                        </template>
+                    </div>
+                    <template if:true={smileFeedback}>
+                        <div class="smile-feedback">{smileFeedback}</div>
+                    </template>
+                </template>
+
+                <template if:true={isLightningInput}>
+                    <lightning-input
+                        type={lightningInputType}
+                        label={questionText}
+                        variant="label-hidden"
+                        value={displayValue}
+                        checked={booleanAnswerValue}
+                        placeholder={placeholderText}
+                        required={required}
+                        onchange={handleInputChange}>
+                    </lightning-input>
+                </template>
+            </template>
+        </section>
+    </template>
+</template>

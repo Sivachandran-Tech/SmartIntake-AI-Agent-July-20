@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Render_Lightning_Input__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Controls whether the SmartIntake Agentforce renderer should show an inline Lightning input/control for this question. Leave unchecked for plain chat text answers.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Render Lightning Input</label>
+    <type>Checkbox</type>
+</CustomField>

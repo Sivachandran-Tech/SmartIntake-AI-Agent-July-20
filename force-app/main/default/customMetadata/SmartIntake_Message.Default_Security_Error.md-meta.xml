@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Default Security Error</label>
+    <protected>false</protected>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Message_Key__c</field>
+        <value xsi:type="xsd:string">SECURITY_ERROR</value>
+    </values>
+    <values>
+        <field>Message_Text__c</field>
+        <value xsi:type="xsd:string">I can’t access or save that part of the intake with the current permissions.</value>
+    </values>
+    <values>
+        <field>Message_Type__c</field>
+        <value xsi:type="xsd:string">SECURITY</value>
+    </values>
+    <values>
+        <field>Template_Key__c</field>
+        <value xsi:type="xsd:string">GLOBAL</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flow_Output_Mappings__c</fullName>
+    <description>Admin-friendly Flow output mappings. Enter one mapping per line, such as matchedProducts -&gt; PRODUCT_RESULTS.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Flow Output Mappings</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Event Pulse</label>
+    <protected>false</protected>
+    <values>
+        <field>Aliases__c</field>
+        <value xsi:type="xsd:string">c/eventPulseRating;EVENT_PULSE;EVENT_PULSE_RATING;PULSE;PULSE_RATING;PROGRESS</value>
+    </values>
+    <values>
+        <field>Component_Name__c</field>
+        <value xsi:type="xsd:string">c/eventPulseRating</value>
+    </values>
+    <values>
+        <field>Control_Key__c</field>
+        <value xsi:type="xsd:string">EVENT_PULSE</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Interactive pulse ring input for event-energy style ratings.</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+</CustomMetadata>

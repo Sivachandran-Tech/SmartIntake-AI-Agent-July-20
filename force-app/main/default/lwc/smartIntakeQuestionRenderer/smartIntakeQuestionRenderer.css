@@ -1,0 +1,106 @@
+.custom-loader {
+    position: relative;
+    min-height: 4rem;
+}
+
+.review-snapshot {
+    border: 1px solid #dddbda;
+    border-radius: 0.375rem;
+    margin: 0.75rem 0;
+    overflow: hidden;
+}
+
+.review-snapshot__row {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.65rem 0.75rem;
+}
+
+.review-snapshot__row + .review-snapshot__row {
+    border-top: 1px solid #ecebea;
+}
+
+.review-snapshot dt {
+    color: #5c5c5c;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.review-snapshot dd {
+    color: #181818;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.stars-row {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.star-button {
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+    padding: 0.25rem;
+}
+
+.star-button:hover,
+.star-button:focus {
+    background: rgba(1, 118, 211, 0.08);
+    outline: 2px solid #0176d3;
+    outline-offset: 1px;
+}
+
+.star-icon {
+    --slds-c-icon-color-foreground-default: #c9c9c9;
+    --lwc-colorTextIconDefault: #c9c9c9;
+}
+
+.star-icon--selected {
+    --slds-c-icon-color-foreground-default: #f4a100;
+    --lwc-colorTextIconDefault: #f4a100;
+}
+
+.rating-feedback {
+    color: #444;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.35rem;
+}
+
+.smiles-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.smile-button {
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.75rem;
+    line-height: 1;
+    padding: 0.25rem;
+}
+
+.smile-button:hover,
+.smile-button:focus,
+.smile-button--selected {
+    background: rgba(1, 118, 211, 0.08);
+    outline: 2px solid #0176d3;
+    outline-offset: 1px;
+}
+
+.smile-feedback {
+    color: #0176d3;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-top: 0.35rem;
+}

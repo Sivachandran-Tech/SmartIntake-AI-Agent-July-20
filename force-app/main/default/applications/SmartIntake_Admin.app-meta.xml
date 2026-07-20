@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Admin workspace for configuring and validating SmartIntake templates.</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>SmartIntake Admin</label>
+    <navType>Standard</navType>
+    <tabs>SmartIntake_Admin</tabs>
+    <tabs>SmartIntake_Runtime</tabs>
+    <tabs>Apex_Debug_Log__c</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

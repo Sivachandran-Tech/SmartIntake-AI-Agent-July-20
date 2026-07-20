@@ -1,0 +1,98 @@
+<template>
+    <section class="product-selector" aria-label={computedAriaLabel}>
+        <template if:true={showPrompt}>
+            <header class="product-selector__header">
+                <div>
+                    <template if:true={eyebrowText}>
+                        <p class="product-selector__eyebrow">{eyebrowText}</p>
+                    </template>
+                    <h2>{titleText}</h2>
+                    <template if:true={computedHelpText}>
+                        <p class="product-selector__help">{computedHelpText}</p>
+                    </template>
+                </div>
+                <template if:true={selectedProduct}>
+                    <span class="product-selector__selected-pill">Selected</span>
+                </template>
+            </header>
+        </template>
+
+        <template if:true={hasProducts}>
+            <div class="product-selector__toolbar">
+                <button
+                    class="product-selector__nav-button"
+                    type="button"
+                    title="Previous products"
+                    aria-label="Previous products"
+                    disabled={isPreviousDisabled}
+                    onclick={handlePrevious}>
+                    <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                </button>
+                <span class="product-selector__count">{resultCountLabel}</span>
+                <button
+                    class="product-selector__nav-button"
+                    type="button"
+                    title="Next products"
+                    aria-label="Next products"
+                    disabled={isNextDisabled}
+                    onclick={handleNext}>
+                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                </button>
+            </div>
+
+            <div class="product-selector__viewport">
+                <div class="product-selector__track" style={trackStyle}>
+                    <template for:each={visibleProducts} for:item="product">
+                        <article key={product.value} class={product.cardClass}>
+                            <button
+                                class="product-card__button"
+                                type="button"
+                                data-value={product.value}
+                                aria-label={product.ariaLabel}
+                                aria-pressed={product.isSelected}
+                                disabled={readOnly}
+                                onclick={handleSelect}>
+                                <div class="product-card__media">
+                                    <template if:true={product.imageUrl}>
+                                        <img src={product.imageUrl} alt={product.imageAlt} />
+                                    </template>
+                                    <template if:false={product.imageUrl}>
+                                        <div class="product-card__placeholder" aria-hidden="true">
+                                            <span>{product.initials}</span>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <div class="product-card__body">
+                                    <h3>{product.label}</h3>
+                                    <template if:true={product.subtitle}>
+                                        <p class="product-card__subtitle">{product.subtitle}</p>
+                                    </template>
+                                    <template if:true={product.priceLabel}>
+                                        <p class="product-card__price">{product.priceLabel}</p>
+                                    </template>
+                                    <template if:true={product.identifierLabel}>
+                                        <p class="product-card__meta">{product.identifierLabel}</p>
+                                    </template>
+                                    <template if:true={product.warrantyLabel}>
+                                        <p class="product-card__status">{product.warrantyLabel}</p>
+                                    </template>
+                                </div>
+                            </button>
+                        </article>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <template if:false={hasProducts}>
+            <div class="product-selector__empty">
+                <p>No products are available to choose from yet.</p>
+            </div>
+        </template>
+
+        <template if:true={validationMessage}>
+            <p class="product-selector__error" role="alert">{validationMessage}</p>
+        </template>
+    </section>
+</template>

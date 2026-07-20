@@ -1,0 +1,60 @@
+<template>
+    <template if:true={isOpinionSurvey}>
+        <section class="opinion" aria-label="Configured opinion survey">
+            <header class="opinion__header">
+                <div>
+                    <div class="opinion__eyebrow">{eyebrowText}</div>
+                    <h2>{titleText}</h2>
+                </div>
+                <span class="opinion__spark" aria-hidden="true"></span>
+            </header>
+
+            <div class="opinion__body">
+                <fieldset class="opinion__fieldset">
+                    <legend>{ratingPrompt}</legend>
+                    <div class="opinion__faces" role="radiogroup" aria-label={ratingPrompt}>
+                        <template for:each={moodOptions} for:item="option">
+                            <button
+                                key={option.value}
+                                type="button"
+                                class={option.buttonClass}
+                                data-value={option.value}
+                                aria-label={option.ariaLabel}
+                                aria-checked={option.isSelected}
+                                disabled={readOnly}
+                                onclick={handleMoodSelect}>
+                                <span class={option.faceClass} aria-hidden="true">
+                                    <span class="face__mouth"></span>
+                                </span>
+                            </button>
+                        </template>
+                    </div>
+                </fieldset>
+
+                <label class="opinion__label" for="opinionText">{notePrompt}</label>
+                <textarea
+                    id="opinionText"
+                    class="opinion__textarea"
+                    placeholder={placeholderText}
+                    disabled={readOnly}
+                    value={comment}
+                    oninput={handleCommentInput}>
+                </textarea>
+
+                <template if:true={validationMessage}>
+                    <div class="opinion__error" role="alert">{validationMessage}</div>
+                </template>
+
+                <div class="opinion__footer">
+                    <template if:true={selectedLabel}>
+                        <span class="opinion__selection">{selectedLabel}</span>
+                    </template>
+                    <button class="opinion__continue" type="button" disabled={readOnly} onclick={handleContinue}>
+                        Continue
+                        <span aria-hidden="true">&gt;</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </template>
+</template>

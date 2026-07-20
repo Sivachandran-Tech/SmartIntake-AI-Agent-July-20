@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>First action for start intake, form requests, restart intake, and new SmartIntake flows. Returns the next metadata-driven question and resolves the template from context, session, routable record, or default route.</description>
+    <developerName>SmartIntake_Get_Next_Intake_Question_Routed</developerName>
+    <invocationTarget>SmartIntakeGetNextByContextAction</invocationTarget>
+    <invocationTargetType>apex</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>false</isIncludeInProgressIndicator>
+    <localDeveloperName>SmartIntake_Get_Next_Intake_Question_Routed</localDeveloperName>
+    <masterLabel>SmartIntake - Get Next Intake Question By Context</masterLabel>
+</GenAiFunction>

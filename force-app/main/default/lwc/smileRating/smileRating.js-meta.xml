@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <capabilities>
+        <!-- Required so smartIntakeAnswerEditor can load this LWC dynamically via lwc:is + import() -->
+        <capability>lightning__dynamicComponent</capability>
+    </capabilities>
+    <masterLabel>SmartIntake Smile Rating</masterLabel>
+    <description>Custom smile/emoji rating input/renderer for SmartIntake questions. Set UI_Control__c = c/smileRating on any SmartIntake_Question__mdt record to use this component in Agentforce chat.</description>
+</LightningComponentBundle>

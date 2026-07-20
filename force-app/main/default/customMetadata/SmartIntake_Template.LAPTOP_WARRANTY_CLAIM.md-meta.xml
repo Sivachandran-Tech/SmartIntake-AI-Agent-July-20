@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Laptop Warranty Claim</label>
+    <protected>false</protected>
+    <values>
+        <field>Completion_Message__c</field>
+        <value xsi:type="xsd:string">Your warranty claim has been successfully submitted. Thank you!</value>
+    </values>
+    <values>
+        <field>Consent_Message__c</field>
+        <value xsi:type="xsd:string">I agree that this intake can be saved and reviewed by the assigned team.</value>
+    </values>
+    <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Requires_Consent__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Requires_Final_Confirmation__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Start_Question_Key__c</field>
+        <value xsi:type="xsd:string">CLAIM_EMAIL</value>
+    </values>
+    <values>
+        <field>Template_Key__c</field>
+        <value xsi:type="xsd:string">LAPTOP_WARRANTY_CLAIM</value>
+    </values>
+    <values>
+        <field>Template_Name__c</field>
+        <value xsi:type="xsd:string">Laptop Warranty Claim</value>
+    </values>
+</CustomMetadata>

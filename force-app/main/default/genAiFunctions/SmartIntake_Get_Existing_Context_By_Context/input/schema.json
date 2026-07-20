@@ -1,0 +1,49 @@
+{
+  "required" : [ "questionKey" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated answers JSON. Pass from the latest SmartIntake action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Current SmartIntake session id. Pass from previous action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "questionKey" : {
+      "title" : "Question Key",
+      "description" : "Key of the current SmartIntake question whose existing context should be loaded.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "recordId" : {
+      "title" : "Record Id",
+      "description" : "Salesforce record id returned by Find Existing Record. Pass only when a matching record was found.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Route key for SmartIntake. Set from $Context.Current_Page so Apex can resolve the template from routing metadata. Do not ask the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Legacy builder compatibility field. Leave blank when SmartIntake resolves the template from context.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

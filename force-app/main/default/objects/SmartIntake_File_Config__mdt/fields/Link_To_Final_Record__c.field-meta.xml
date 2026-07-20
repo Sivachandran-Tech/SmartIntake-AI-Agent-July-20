@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link_To_Final_Record__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>When enabled, uploaded files are linked to the final SmartIntake record after final save.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Link To Final Record</label>
+    <type>Checkbox</type>
+</CustomField>

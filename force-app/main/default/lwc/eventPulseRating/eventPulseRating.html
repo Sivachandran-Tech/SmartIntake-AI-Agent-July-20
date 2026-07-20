@@ -1,0 +1,47 @@
+<template>
+    <section class={shellClass} aria-label="Event energy selector">
+        <div class="pulse__copy">
+            <div class="pulse__eyebrow">Post-event check-in</div>
+            <div class="pulse__title">Event energy</div>
+        </div>
+
+        <div
+            class="pulse__dial"
+            style={dialStyle}
+            role="radiogroup"
+            aria-label="Select event energy from 1 to 5"
+            onpointerdown={handleDialPointerDown}
+            onpointermove={handleDialPointerMove}
+            onpointerup={handleDialPointerUp}
+            onpointercancel={handleDialPointerUp}>
+            <div class="pulse__halo"></div>
+            <div class="pulse__track"></div>
+            <div class="pulse__fill"></div>
+            <div class="pulse__center">
+                <div class="pulse__value">{displayValue}</div>
+                <div class="pulse__status">{selectedLabel}</div>
+            </div>
+
+            <template for:each={options} for:item="option">
+                <button
+                    key={option.value}
+                    type="button"
+                    class={option.buttonClass}
+                    style={option.style}
+                    data-value={option.value}
+                    aria-label={option.ariaLabel}
+                    aria-checked={option.isSelected}
+                    disabled={readOnly}
+                    onclick={handleSelect}>
+                    <span class="pulse__dot-core"></span>
+                </button>
+            </template>
+        </div>
+
+        <div class="pulse__scale" aria-hidden="true">
+            <span>Low</span>
+            <span>Drag or tap</span>
+            <span>High</span>
+        </div>
+    </section>
+</template>

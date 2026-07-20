@@ -1,0 +1,288 @@
+<template>
+    <lightning-card>
+        <div class="runtime">
+            <header class="agent">
+                <template if:true={hasAvatarImage}>
+                    <img class="agent__avatar" src={avatarImageUrl} alt={agentDisplayName} />
+                </template>
+                <template if:false={hasAvatarImage}>
+                    <lightning-icon class="agent__icon" icon-name={agentIconName} size="small" alternative-text={agentDisplayName}></lightning-icon>
+                </template>
+                <div>
+                    <div class="agent__name">{agentDisplayName}</div>
+                    <template if:true={hasWelcomeMessage}>
+                        <div class="agent__message">{welcomeMessage}</div>
+                    </template>
+                </div>
+            </header>
+
+            <template if:true={isLoading}>
+                <div class="centered">
+                    <lightning-spinner alternative-text="Loading SmartIntake" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={isLoading}>
+                <template if:true={progress}>
+                    <lightning-progress-indicator current-step={currentStepValue} type="base">
+                        <template for:each={steps} for:item="step">
+                            <lightning-progress-step key={step.value} label={step.label} value={step.value}></lightning-progress-step>
+                        </template>
+                    </lightning-progress-indicator>
+                </template>
+
+                <template if:true={errorMessage}>
+                    <div class="message message_error" role="alert">
+                        {errorMessage}
+                    </div>
+                </template>
+
+                <template if:true={successMessage}>
+                    <div class="message message_success" role="status">
+                        {successMessage}
+                    </div>
+                </template>
+
+                <template if:true={hasHandoffAction}>
+                    <section class="handoff" aria-label="Human handoff">
+                        <div class="handoff__summary">
+                            <span>{handoffPlan.triggerMessage}</span>
+                            <lightning-button
+                                label="Talk to a person"
+                                icon-name="utility:service_crew"
+                                variant="neutral"
+                                disabled={handoffButtonDisabled}
+                                onclick={handleHandoffStart}>
+                            </lightning-button>
+                        </div>
+
+                        <template if:true={showHandoffPanel}>
+                            <div class="handoff__panel">
+                                <template if:true={handoffBusy}>
+                                    <lightning-spinner alternative-text="Checking handoff readiness" size="small"></lightning-spinner>
+                                </template>
+
+                                <template if:false={handoffBusy}>
+                                    <template if:true={handoffErrorMessage}>
+                                        <div class="message message_error" role="alert">
+                                            {handoffErrorMessage}
+                                        </div>
+                                    </template>
+
+                                    <p class="handoff__message">{handoffMessage}</p>
+
+                                    <template if:true={showHandoffConsentActions}>
+                                        <div class="handoff__actions">
+                                            <lightning-button
+                                                label="Share configured context"
+                                                variant="brand"
+                                                onclick={handleHandoffConsentAccepted}>
+                                            </lightning-button>
+                                            <lightning-button
+                                                label="No thanks"
+                                                variant="neutral"
+                                                onclick={handleHandoffDeclined}>
+                                            </lightning-button>
+                                        </div>
+                                    </template>
+
+                                    <template if:true={showHandoffExternalUrl}>
+                                        <div class="handoff__actions">
+                                            <a class="handoff__link" href={handoffPlan.handoffUrl} target="_blank" rel="noopener noreferrer">
+                                                Open support
+                                            </a>
+                                            <template if:true={showHandoffDeclineAction}>
+                                                <lightning-button
+                                                    label="No thanks"
+                                                    variant="neutral"
+                                                    onclick={handleHandoffDeclined}>
+                                                </lightning-button>
+                                            </template>
+                                        </div>
+                                    </template>
+
+                                    <template if:true={showHandoffReadyActions}>
+                                        <div class="handoff__actions">
+                                            <lightning-button
+                                                label="No thanks"
+                                                variant="neutral"
+                                                onclick={handleHandoffDeclined}>
+                                            </lightning-button>
+                                        </div>
+                                    </template>
+
+                                    <template if:true={handoffIsUnavailable}>
+                                        <template if:true={hasHandoffReadinessWarnings}>
+                                            <div class="handoff__admin-note">
+                                                <div class="handoff__admin-title">Admin setup note</div>
+                                                <template for:each={handoffReadinessWarnings} for:item="warning">
+                                                    <div key={warning.key}>{warning.message}</div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </section>
+                </template>
+
+                <template if:true={hasQuestion}>
+                    <section class="question">
+                        <div class="question__text">{question.questionText}</div>
+                        <template if:true={question.helpText}>
+                            <div class="question__help">{question.helpText}</div>
+                        </template>
+
+                        <template if:true={hasExistingContext}>
+                            <section class="context" aria-label="Existing context">
+                                <div class="context__message">{existingContext.contextMessage}</div>
+                                <template for:each={existingContextRecords} for:item="record">
+                                    <div key={record.recordId} class="context__record">
+                                        <span class="context__value">{record.displayValue}</span>
+                                        <span class="context__actions">{record.allowedActionsLabel}</span>
+                                    </div>
+                                </template>
+                            </section>
+                        </template>
+
+                        <template if:true={isCombobox}>
+                            <lightning-combobox
+                                label={question.questionText}
+                                variant="label-hidden"
+                                value={answerValue}
+                                placeholder={question.placeholderText}
+                                options={question.options}
+                                required={question.required}
+                                onchange={handleAnswerChange}>
+                            </lightning-combobox>
+                        </template>
+
+                        <template if:true={isRadioGroup}>
+                            <lightning-radio-group
+                                label={question.questionText}
+                                variant="label-hidden"
+                                value={answerValue}
+                                options={question.options}
+                                required={question.required}
+                                type="radio"
+                                onchange={handleAnswerChange}>
+                            </lightning-radio-group>
+                        </template>
+
+                        <template if:true={isCheckboxGroup}>
+                            <lightning-checkbox-group
+                                label={question.questionText}
+                                value={multiAnswerValue}
+                                options={question.options}
+                                required={question.required}
+                                onchange={handleMultiAnswerChange}>
+                            </lightning-checkbox-group>
+                        </template>
+
+                        <template if:true={isTextarea}>
+                            <lightning-textarea
+                                label={question.questionText}
+                                variant="label-hidden"
+                                value={answerValue}
+                                placeholder={question.placeholderText}
+                                required={question.required}
+                                onchange={handleAnswerChange}>
+                            </lightning-textarea>
+                        </template>
+
+                        <template if:true={isFileUpload}>
+                            <div class="file-upload">
+                                <lightning-file-upload
+                                    label={fileUploadLabel}
+                                    accept={fileAcceptedFormats}
+                                    multiple={fileUploadMultiple}
+                                    onuploadfinished={handleFileUploadFinished}>
+                                </lightning-file-upload>
+                                <template if:true={hasUploadedFiles}>
+                                    <div class="file-upload__list" aria-label="Uploaded files">
+                                        <template for:each={uploadedFiles} for:item="file">
+                                            <lightning-pill
+                                                key={file.key}
+                                                name={file.key}
+                                                label={file.name}
+                                                onremove={handleRemoveUploadedFile}>
+                                            </lightning-pill>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <template if:true={isLightningInput}>
+                            <lightning-input
+                                type={lightningInputType}
+                                label={question.questionText}
+                                variant="label-hidden"
+                                value={answerValue}
+                                checked={booleanAnswerValue}
+                                placeholder={question.placeholderText}
+                                required={question.required}
+                                onchange={handleAnswerChange}>
+                            </lightning-input>
+                        </template>
+
+                        <div class="actions actions_split">
+                            <div class="actions__secondary">
+                                <lightning-button
+                                    label="Back"
+                                    icon-name="utility:back"
+                                    variant="neutral"
+                                    disabled={backDisabled}
+                                    onclick={handleBack}>
+                                </lightning-button>
+                                <template if:true={canSkip}>
+                                    <lightning-button
+                                        label="Skip"
+                                        variant="neutral"
+                                        onclick={handleSkip}>
+                                    </lightning-button>
+                                </template>
+                            </div>
+                            <lightning-button
+                                label="Next"
+                                variant="brand"
+                                onclick={handleNext}>
+                            </lightning-button>
+                        </div>
+                    </section>
+                </template>
+
+                <template if:true={isComplete}>
+                    <section class="review">
+                        <h3>Review</h3>
+                        <template for:each={reviewItems} for:item="item">
+                            <div key={item.key} class="review__row">
+                                <span class="review__key">{item.key}</span>
+                                <span class="review__value">{item.value}</span>
+                            </div>
+                        </template>
+                        <template if:true={requiresConsent}>
+                            <div class="consent">
+                                <lightning-input
+                                    type="checkbox"
+                                    label={displayConsentMessage}
+                                    checked={consentAccepted}
+                                    onchange={handleConsentChange}>
+                                </lightning-input>
+                            </div>
+                        </template>
+                        <div class="actions">
+                            <lightning-button
+                                label="Save Intake"
+                                variant="brand"
+                                disabled={saveDisabled}
+                                onclick={handleSave}>
+                            </lightning-button>
+                        </div>
+                    </section>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

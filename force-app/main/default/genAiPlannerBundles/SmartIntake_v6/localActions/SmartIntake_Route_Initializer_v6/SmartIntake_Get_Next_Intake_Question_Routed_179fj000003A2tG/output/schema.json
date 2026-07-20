@@ -1,0 +1,169 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "adminMessage" : {
+      "title" : "Admin Message",
+      "description" : "Internal error detail for admins. Not shown to user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "answerCaptureTemplate" : {
+      "title" : "Answer Capture Template",
+      "description" : "Legacy internal answer capture template. Do not display directly; currentQuestion owns the Enhanced Chat renderer.",
+      "lightning:type" : "c__smartIntakeAnswerCapture",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Updated answers JSON to carry forward to next action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "brandingJson" : {
+      "title" : "Branding JSON",
+      "description" : "Agent branding config from metadata.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "consentMessage" : {
+      "title" : "Consent Message",
+      "description" : "Message to display when consent is required before proceeding.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "currentQuestion" : {
+      "title" : "Current Question Contract",
+      "description" : "Structured question contract for the SmartIntakeQuestionLTI custom renderer. This is the only displayable question UI payload.",
+      "lightning:type" : "c__SmartIntakeQuestionLTI",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorCode" : {
+      "title" : "Error Code",
+      "description" : "Machine-readable error code for debugging.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "errorType" : {
+      "title" : "Error Type",
+      "description" : "Type of error that occurred if success is false.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Session ID to store and pass to every subsequent action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "isComplete" : {
+      "title" : "Is Complete",
+      "description" : "True when all questions are answered. Triggers save flow.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "primaryRecordId" : {
+      "title" : "Primary Record Id",
+      "description" : "Salesforce record ID after save. Not used by this action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "progressJson" : {
+      "title" : "Progress JSON",
+      "description" : "Progress data for UI progress bar rendering.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "questionJson" : {
+      "title" : "Question JSON",
+      "description" : "Full question details including text, type, options. Pass to LWC.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "requiresConsent" : {
+      "title" : "Requires Consent",
+      "description" : "True if user must accept consent before proceeding.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "requiresFinalConfirmation" : {
+      "title" : "Requires Final Confirmation",
+      "description" : "True when all answers collected and confirmation needed.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "success" : {
+      "title" : "Success",
+      "description" : "False if an error occurred. Check before proceeding.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Echo of the template key used.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : false,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "userMessage" : {
+      "title" : "User Message",
+      "description" : "Message to display to the user. Always show this when present.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : false,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

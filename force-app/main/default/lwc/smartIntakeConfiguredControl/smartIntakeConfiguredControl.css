@@ -1,0 +1,290 @@
+.opinion {
+    background: #ffffff;
+    border: 1px solid rgba(26, 35, 58, 0.14);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.75rem 1.75rem rgba(18, 31, 53, 0.12);
+    color: #26313f;
+    overflow: hidden;
+}
+
+.opinion__header {
+    align-items: center;
+    background: linear-gradient(135deg, #07aeea, #1297ff);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+}
+
+.opinion__eyebrow {
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.opinion__header h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0.1rem 0 0;
+}
+
+.opinion__spark {
+    height: 1.55rem;
+    position: relative;
+    width: 1.55rem;
+}
+
+.opinion__spark::before,
+.opinion__spark::after {
+    background: #ffffff;
+    border-radius: 999px;
+    content: "";
+    height: 0.18rem;
+    left: 0.1rem;
+    position: absolute;
+    top: 0.68rem;
+    transform: rotate(45deg);
+    width: 1.35rem;
+}
+
+.opinion__spark::after {
+    transform: rotate(-45deg);
+}
+
+.opinion__body {
+    padding: 1rem;
+}
+
+.opinion__fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.opinion__fieldset legend,
+.opinion__label {
+    color: #596373;
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.opinion__faces {
+    display: grid;
+    gap: 0.55rem;
+    grid-template-columns: repeat(5, minmax(2.35rem, 1fr));
+    margin: 0.85rem 0 1.2rem;
+}
+
+.opinion__face-button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 0.55rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    min-height: 3.3rem;
+    padding: 0.2rem;
+    transition: background 130ms ease, box-shadow 130ms ease, transform 130ms ease;
+}
+
+.opinion__face-button:hover,
+.opinion__face-button:focus,
+.opinion__face-button_selected {
+    background: #eff8ff;
+    box-shadow: 0 0 0 0.18rem rgba(18, 151, 255, 0.24);
+    outline: 0;
+    transform: translateY(-0.08rem);
+}
+
+.face {
+    background: #ffffff;
+    border: 0.16rem solid #8a8f97;
+    border-radius: 50%;
+    display: block;
+    height: 2.7rem;
+    position: relative;
+    width: 2.7rem;
+}
+
+.opinion__face-button_selected .face {
+    border-color: #1297ff;
+}
+
+.face::before,
+.face::after {
+    background: #4b5563;
+    border-radius: 50%;
+    content: "";
+    height: 0.26rem;
+    position: absolute;
+    top: 0.9rem;
+    width: 0.26rem;
+}
+
+.face::before {
+    left: 0.78rem;
+}
+
+.face::after {
+    right: 0.78rem;
+}
+
+.face__mouth {
+    border-color: #4b5563;
+    border-style: solid;
+    display: block;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.face_sad .face__mouth,
+.face_low .face__mouth {
+    border-width: 0.14rem 0.14rem 0 0.14rem;
+    border-radius: 1rem 1rem 0 0;
+    bottom: 0.68rem;
+    height: 0.45rem;
+    width: 1rem;
+}
+
+.face_neutral .face__mouth {
+    border-width: 0.14rem 0 0;
+    bottom: 0.9rem;
+    height: 0;
+    width: 1rem;
+}
+
+.face_happy .face__mouth {
+    border-width: 0 0.14rem 0.14rem 0.14rem;
+    border-radius: 0 0 1rem 1rem;
+    bottom: 0.86rem;
+    height: 0.48rem;
+    width: 1.05rem;
+}
+
+.face_delighted .face__mouth {
+    background: #ffffff;
+    border-width: 0.14rem;
+    border-radius: 0 0 1rem 1rem;
+    bottom: 0.62rem;
+    height: 0.72rem;
+    overflow: hidden;
+    width: 1.18rem;
+}
+
+.face_delighted .face__mouth::before {
+    background: #4b5563;
+    content: "";
+    height: 0.14rem;
+    left: 0;
+    position: absolute;
+    top: 0.27rem;
+    width: 100%;
+}
+
+.opinion__label {
+    margin-bottom: 0.45rem;
+}
+
+.opinion__textarea {
+    border: 1px solid rgba(89, 99, 115, 0.22);
+    border-radius: 0.4rem;
+    color: #26313f;
+    display: block;
+    font: inherit;
+    min-height: 5.6rem;
+    padding: 0.75rem;
+    resize: vertical;
+    width: 100%;
+}
+
+.opinion__textarea:focus {
+    border-color: #1297ff;
+    box-shadow: 0 0 0 0.18rem rgba(18, 151, 255, 0.2);
+    outline: 0;
+}
+
+.opinion__error {
+    color: #ba0517;
+    font-size: 0.76rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+.opinion__footer {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.opinion__selection {
+    color: #596373;
+    font-size: 0.76rem;
+    font-weight: 800;
+}
+
+.opinion__continue {
+    align-items: center;
+    background: #1297ff;
+    border: 0;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.45rem 1rem rgba(18, 151, 255, 0.24);
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 0.9rem;
+    font-weight: 800;
+    gap: 0.45rem;
+    justify-content: center;
+    min-width: 7.5rem;
+    padding: 0.7rem 1rem;
+}
+
+.opinion__continue:hover,
+.opinion__continue:focus {
+    background: #087bd2;
+    outline: 0;
+}
+
+.opinion__continue:disabled,
+.opinion__face-button:disabled,
+.opinion__textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+@media (max-width: 30rem) {
+    .opinion__body {
+        padding: 0.85rem;
+    }
+
+    .opinion__faces {
+        gap: 0.25rem;
+    }
+
+    .face {
+        height: 2.25rem;
+        width: 2.25rem;
+    }
+
+    .face::before {
+        left: 0.62rem;
+    }
+
+    .face::after {
+        right: 0.62rem;
+    }
+
+    .opinion__footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

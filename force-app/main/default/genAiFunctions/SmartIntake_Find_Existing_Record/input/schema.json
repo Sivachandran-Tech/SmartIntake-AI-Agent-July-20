@@ -1,0 +1,35 @@
+{
+  "required" : [ "matchFieldKey", "matchValue", "templateKey" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Current accumulated answers JSON. Pass from the latest SmartIntake action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "matchFieldKey" : {
+      "title" : "Match Field Key",
+      "description" : "Metadata field key used for matching, for example guestName or email. Use the matching key configured for the current question.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "matchValue" : {
+      "title" : "Match Value",
+      "description" : "User-provided value to search for in existing Salesforce records. Usually pass the current answer value.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "templateKey" : {
+      "title" : "Template Key",
+      "description" : "Metadata template key for the intake form, for example HOTEL_BOOKING_BASIC_V1.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

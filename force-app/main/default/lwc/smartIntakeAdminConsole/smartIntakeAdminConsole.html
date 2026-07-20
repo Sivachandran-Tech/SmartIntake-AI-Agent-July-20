@@ -1,0 +1,1398 @@
+<template>
+    <div class="admin admin_v2">
+        <section class="slds-page-header console-header" aria-label="SmartIntake admin header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-flow console-header__icon" title="SmartIntake">
+                                <lightning-icon icon-name="standard:flow" size="small" alternative-text="SmartIntake"></lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="console-kicker">Metadata-driven intake builder</div>
+                            <h1 class="slds-page-header__title slds-truncate" title="SmartIntake Admin">SmartIntake Admin</h1>
+                            <p class="console-title__description">Build template questions, rules, routing, and deployment checks in one SLDS workspace.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="toolbar">
+                        <lightning-combobox
+                            class="template-selector"
+                            label="Template"
+                            value={selectedTemplateKey}
+                            options={templateOptions}
+                            onchange={handleTemplateChange}>
+                        </lightning-combobox>
+                        <lightning-button
+                            label="New Template"
+                            icon-name="utility:add"
+                            onclick={handleNewTemplate}>
+                        </lightning-button>
+                        <lightning-button
+                            label="Refresh"
+                            icon-name="utility:refresh"
+                            variant="brand"
+                            onclick={handleValidate}
+                            disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <template if:true={isLoading}>
+            <div class="centered">
+                <lightning-spinner alternative-text="Loading SmartIntake admin console" size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={hasToast}>
+            <div class={toastClass} role="status">
+                <lightning-icon icon-name={toastIconName} size="x-small" alternative-text={toastMessage.type}></lightning-icon>
+                <span>{toastMessage.text}</span>
+                <button type="button" class="toast__close" aria-label="Dismiss message" onclick={handleToastDismiss}>x</button>
+            </div>
+        </template>
+
+        <template if:true={showTemplateEmptyState}>
+            <section class="empty-state" aria-label="No templates">
+                <div class="empty-state__icon">
+                    <lightning-icon icon-name="utility:template" size="small" alternative-text="Template"></lightning-icon>
+                </div>
+                <h2>No SmartIntake templates yet</h2>
+                <p>Create the first template metadata set, then add questions and channel rules.</p>
+                <lightning-button
+                    label="Create first template"
+                    icon-name="utility:add"
+                    variant="brand"
+                    onclick={handleNewTemplate}>
+                </lightning-button>
+            </section>
+        </template>
+
+        <template if:true={showTemplateWorkspace}>
+            <section class="template-status slds-box" aria-label="Template status">
+                <div class="template-status__identity">
+                    <div class="status-heading">{selectedTemplateName}</div>
+                    <div class="status-subtitle">{selectedTemplateKey}</div>
+                </div>
+                <div class="template-status__actions">
+                    <div class={statusClass}>
+                        <lightning-icon icon-name={statusIcon} size="x-small" alternative-text={statusLabel}></lightning-icon>
+                        <span>{statusLabel}</span>
+                    </div>
+                    <lightning-button
+                        label="Build Questions"
+                        icon-name="utility:edit"
+                        data-tab="build"
+                        onclick={handleAdminSectionClick}>
+                    </lightning-button>
+                    <lightning-button
+                        label="Review Readiness"
+                        icon-name="utility:check"
+                        data-tab="test"
+                        onclick={handleAdminSectionClick}>
+                    </lightning-button>
+                </div>
+            </section>
+
+            <div class="workspace-shell">
+                <aside class="setup-nav-panel" aria-label="SmartIntake builder navigation">
+                    <div class="setup-nav-panel__heading">
+                        <span class="setup-nav-panel__eyebrow">Builder</span>
+                        <strong>{workspaceTitle}</strong>
+                    </div>
+                    <nav class="slds-nav-vertical" role="tablist" aria-label="SmartIntake admin sections">
+                        <div class="slds-nav-vertical__section">
+                            <ul>
+                                <template for:each={adminTabItems} for:item="item">
+                                    <li key={item.value} class={item.navItemClass}>
+                                        <button
+                                            type="button"
+                                            role="tab"
+                                            class={item.buttonClass}
+                                            data-tab={item.value}
+                                            data-testid={item.testId}
+                                            aria-selected={item.selected}
+                                            onclick={handleAdminSectionClick}>
+                                            <span class="setup-nav__icon">
+                                                <lightning-icon icon-name={item.iconName} size="x-small" alternative-text={item.label}></lightning-icon>
+                                            </span>
+                                            <span class="setup-nav__body">
+                                                <span class="setup-nav__label">{item.label}</span>
+                                                <span class="setup-nav__description">{item.description}</span>
+                                            </span>
+                                            <template if:true={item.showBadge}>
+                                                <span class={item.badgeClass}>{item.badgeCount}</span>
+                                            </template>
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </nav>
+                </aside>
+
+                <main class="workspace-main">
+                    <section class="workspace-stage" aria-label="Current workspace stage">
+                        <div>
+                            <div class="console-kicker">Current stage</div>
+                            <h2>{workspaceTitle}</h2>
+                            <p>{workspaceDescription}</p>
+                        </div>
+                        <div class="workspace-stage__metrics">
+                            <span><strong>{healthScore}%</strong> health</span>
+                            <span><strong>{readinessBlockedCount}</strong> blocked</span>
+                            <span><strong>{readinessWarningCount}</strong> warnings</span>
+                        </div>
+                    </section>
+
+                <template if:true={isOverviewTab}>
+                    <section class="workspace" aria-label="Overview">
+                        <div class="summary-grid">
+                            <template for:each={summaryItems} for:item="item">
+                                <div key={item.key} class="metric">
+                                    <span class="metric__value">{item.value}</span>
+                                    <span class="metric__label">{item.label}</span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="two-column">
+                            <section class="panel-block" aria-label="Template readiness">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Readiness</h2>
+                                        <p>Checks that must pass before the template should run in chat.</p>
+                                    </div>
+                                    <template if:true={readiness}>
+                                        <span class="badge">{readiness.overallStatus}</span>
+                                    </template>
+                                </div>
+
+                                <template if:true={hasReadinessItems}>
+                                    <div class="stack-list">
+                                        <template for:each={readinessItems} for:item="item">
+                                            <article key={item.key} class={item.className}>
+                                                <div class="readiness-item__header">
+                                                    <span>{item.label}</span>
+                                                    <span class="readiness-item__status">{item.status}</span>
+                                                </div>
+                                                <div class="readiness-item__message">{item.message}</div>
+                                            </article>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={hasReadinessItems}>
+                                    <div class="empty" role="status">No readiness checks loaded.</div>
+                                </template>
+                            </section>
+
+                            <section class="panel-block" aria-label="Validation issues">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Issues</h2>
+                                        <p>Metadata errors and warnings for the selected template.</p>
+                                    </div>
+                                    <span class="badge">{validation.errorCount} errors</span>
+                                </div>
+
+                                <template if:true={hasIssues}>
+                                    <div class="stack-list">
+                                        <template for:each={validation.issues} for:item="issue">
+                                            <article key={issue.key} class={issue.className}>
+                                                <div class="issue__header">
+                                                    <span class="issue__severity">{issue.severity}</span>
+                                                    <span class="issue__code">{issue.code}</span>
+                                                </div>
+                                                <div class="issue__target">{issue.componentType}: {issue.componentKey}</div>
+                                                <div class="issue__message">{issue.message}</div>
+                                            </article>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={hasIssues}>
+                                    <div class="empty" role="status">No validation issues.</div>
+                                </template>
+                            </section>
+                        </div>
+                    </section>
+                </template>
+
+                <template if:true={isBuildTab}>
+                    <section class="workspace" aria-label="Build">
+                        <template if:true={isConfigurationLoading}>
+                            <div class="centered">
+                                <lightning-spinner alternative-text="Loading template configuration" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+
+                        <div class="studio-layout">
+                            <aside class="question-sidebar" aria-label="Existing questions">
+                                <div class="section-heading section-heading_compact">
+                                    <div>
+                                        <h2>Questions</h2>
+                                        <p>Select a question or create one.</p>
+                                    </div>
+                                    <lightning-button
+                                        label="New"
+                                        icon-name="utility:add"
+                                        onclick={handleNewQuestionDraft}>
+                                    </lightning-button>
+                                </div>
+
+                                <template if:true={hasQuestionRecords}>
+                                    <div class="question-list__items">
+                                        <template for:each={questionItems} for:item="question">
+                                            <button
+                                                key={question.key}
+                                                type="button"
+                                                class={question.listClass}
+                                                data-question-key={question.questionKey}
+                                                onclick={handleEditQuestion}>
+                                                <span class="question-select__number">{question.listNumber}</span>
+                                                <span class="question-select__body">
+                                                    <span class="question-select__title">{question.displayText}</span>
+                                                    <span class="question-select__meta">{question.questionKey} | {question.displayInputType} | {question.displayUiControl}</span>
+                                                </span>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={hasQuestionRecords}>
+                                    <div class="empty">No questions exist for this template yet.</div>
+                                </template>
+                            </aside>
+
+                            <section class="question-workspace" aria-label="Question builder" data-testid="question-builder-section">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>{builderModeLabel}</h2>
+                                        <p>Everything needed for one question lives here: prompt, renderer, options, files, validation, and actions.</p>
+                                    </div>
+                                </div>
+
+                                <section class="accordion-section" aria-label="Question metadata builder">
+                                    <button type="button" class="accordion-section__header" data-section="question" aria-expanded={isQuestionAccordionOpen} onclick={handleAccordionToggle}>
+                                        <span>Question</span>
+                                        <lightning-icon icon-name={questionAccordionIcon} size="xx-small" alternative-text="Toggle question"></lightning-icon>
+                                    </button>
+                                    <div class={questionAccordionBodyClass}>
+                                        <div class="form-grid">
+                                            <lightning-input
+                                                label="Question Key"
+                                                value={builderDraft.questionKey}
+                                                data-field="questionKey"
+                                                data-testid="builder-question-key"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                            <lightning-input
+                                                type="number"
+                                                label="Order"
+                                                value={builderDraft.questionOrder}
+                                                data-field="questionOrder"
+                                                data-testid="builder-question-order"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                            <lightning-input
+                                                type="checkbox"
+                                                label="Required"
+                                                checked={builderDraft.isRequired}
+                                                data-field="isRequired"
+                                                data-testid="builder-required"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                            <lightning-input
+                                                type="checkbox"
+                                                label="Confirm AI extracted answer"
+                                                checked={builderDraft.confirmAiExtractedAnswer}
+                                                data-field="confirmAiExtractedAnswer"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <lightning-input
+                                            label="Question Text"
+                                            value={builderDraft.questionText}
+                                            data-field="questionText"
+                                            data-testid="builder-question-text"
+                                            onchange={handleBuilderChange}>
+                                        </lightning-input>
+                                        <div class="form-grid form-grid_spaced">
+                                            <lightning-input
+                                                label="Help Text"
+                                                value={builderDraft.helpText}
+                                                data-field="helpText"
+                                                data-testid="builder-help-text"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                            <lightning-input
+                                                label="Placeholder Text"
+                                                value={builderDraft.placeholderText}
+                                                data-field="placeholderText"
+                                                data-testid="builder-placeholder-text"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="accordion-section">
+                                    <button type="button" class="accordion-section__header" data-section="control" aria-expanded={isControlAccordionOpen} onclick={handleAccordionToggle}>
+                                        <span>Input Control</span>
+                                        <lightning-icon icon-name={controlAccordionIcon} size="xx-small" alternative-text="Toggle input control"></lightning-icon>
+                                    </button>
+                                    <div class={controlAccordionBodyClass}>
+                                        <div class="form-grid">
+                                            <lightning-combobox
+                                                label="Question Type"
+                                                value={builderQuestionType}
+                                                options={questionTypeOptions}
+                                                data-field="questionType"
+                                                data-testid="builder-input-type"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-combobox>
+                                            <template if:true={isCustomRendererQuestion}>
+                                                <lightning-input
+                                                    label="Custom LWC Component"
+                                                    value={builderDraft.uiControl}
+                                                    placeholder="c/smartIntakeProductSelector"
+                                                    field-level-help="Enter the LWC module name directly, for example c/smartIntakeProductSelector. Deploy the question, then sync the custom control registry so LWR can load the component safely."
+                                                    data-field="uiControl"
+                                                    data-testid="builder-ui-control"
+                                                    onchange={handleBuilderChange}>
+                                                </lightning-input>
+                                                <lightning-combobox
+                                                    label="Stored Answer Type"
+                                                    value={storedAnswerTypeValue}
+                                                    options={storedAnswerTypeOptions}
+                                                    data-field="storedAnswerType"
+                                                    onchange={handleBuilderChange}>
+                                                </lightning-combobox>
+                                                <lightning-input
+                                                    label="Data Source Key"
+                                                    value={builderDraft.dataSourceKey}
+                                                    data-field="dataSourceKey"
+                                                    onchange={handleBuilderChange}>
+                                                </lightning-input>
+                                                <div class="custom-renderer-registry">
+                                                    <p>After the question metadata is deployed, preview and sync the registry so active questions with c/... UI controls render in fresh chat sessions.</p>
+                                                    <div class="actions actions_compact">
+                                                        <lightning-button label="Preview Registry" icon-name="utility:preview" onclick={handlePreviewCustomControlRegistry} disabled={isRegistryLoading}></lightning-button>
+                                                        <lightning-button label="Sync Registry" icon-name="utility:sync" variant="brand" onclick={handleDeploySyncClick} disabled={isRegistrySyncButtonDisabled}></lightning-button>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <lightning-input
+                                                type="checkbox"
+                                                label="Render Lightning Input"
+                                                field-level-help="Show an inline Lightning input or custom control inside the agent message. Leave unchecked for plain text answers that should use the normal chat message box."
+                                                checked={builderDraft.renderLightningInput}
+                                                data-field="renderLightningInput"
+                                                onchange={handleBuilderChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <div class="control-summary">
+                                            <div>
+                                                <span class="control-summary__label">Renderer</span>
+                                                <strong>{selectedControlTitle}</strong>
+                                                <span>{selectedControlComponent}</span>
+                                            </div>
+                                            <p>{selectedControlNotes}</p>
+                                            <p class="control-summary__registry-note">Direct c/... LWC components load automatically when Render Lightning Input is enabled.</p>
+                                        </div>
+                                        <template if:true={isOptionInputType}>
+                                            <section class="rule-card" aria-label="Answer options">
+                                                <h3>Answer options</h3>
+                                                <lightning-textarea
+                                                    label="Options"
+                                                    value={builderDraft.optionLines}
+                                                    data-field="optionLines"
+                                                    onchange={handleBuilderChange}>
+                                                </lightning-textarea>
+                                            </section>
+                                        </template>
+                                        <template if:true={isFileInputType}>
+                                            <section class="rule-card" aria-label="File settings">
+                                                <h3>File settings</h3>
+                                                <div class="form-grid form-grid_spaced">
+                                                    <lightning-input
+                                                        label="Accepted File Types"
+                                                        value={builderDraft.acceptedFileTypes}
+                                                        data-field="acceptedFileTypes"
+                                                        onchange={handleBuilderChange}>
+                                                    </lightning-input>
+                                                    <lightning-input
+                                                        type="number"
+                                                        label="Max File Count"
+                                                        value={builderDraft.maxFileCount}
+                                                        data-field="maxFileCount"
+                                                        onchange={handleBuilderChange}>
+                                                    </lightning-input>
+                                                    <lightning-input
+                                                        type="checkbox"
+                                                        label="Allow Multiple Files"
+                                                        checked={builderDraft.allowMultipleFiles}
+                                                        data-field="allowMultipleFiles"
+                                                        onchange={handleBuilderChange}>
+                                                    </lightning-input>
+                                                </div>
+                                            </section>
+                                        </template>
+                                    </div>
+                                </section>
+
+                                <section class="accordion-section" aria-label="Admin configuration builder">
+                                    <button type="button" class="accordion-section__header" data-section="validation" aria-expanded={isValidationAccordionOpen} onclick={handleAccordionToggle}>
+                                        <span>Validation Rules For This Question</span>
+                                        <lightning-icon icon-name={validationAccordionIcon} size="xx-small" alternative-text="Toggle validation rules"></lightning-icon>
+                                    </button>
+                                    <div class={validationAccordionBodyClass}>
+                                        <section class="configured-rules" aria-label="Configured validation rules">
+                                            <div class="configured-rules__header">
+                                                <div>
+                                                    <h3>Validation rules</h3>
+                                                    <p>Rules that validate the selected question answer before continuing.</p>
+                                                </div>
+                                                <div class="configured-rules__header-actions">
+                                                    <button
+                                                        type="button"
+                                                        class="compact-action-button"
+                                                        title={questionConfigDraftButtonTitle}
+                                                        disabled={isQuestionConfigDraftButtonDisabled}
+                                                        onclick={handleNewValidationConfigDraft}>
+                                                        <lightning-icon icon-name="utility:add" size="xx-small" alternative-text=""></lightning-icon>
+                                                        <span>Add rule</span>
+                                                    </button>
+                                                    <template if:true={hasValidationConfigDraftVisible}>
+                                                        <button type="button" class="compact-icon-button compact-icon-button_destructive" aria-label="Remove validation rule draft" title="Remove draft" onclick={handleRemoveValidationConfigDraft}>
+                                                            <lightning-icon icon-name="utility:close" size="xx-small" alternative-text=""></lightning-icon>
+                                                        </button>
+                                                    </template>
+                                                </div>
+                                            </div>
+
+                                            <template if:true={hasSelectedQuestionValidationConfigRecords}>
+                                                <div class="configured-rule-list">
+                                                    <template for:each={selectedQuestionValidationConfigRecords} for:item="rule">
+                                                        <article key={rule.key} class="configured-rule">
+                                                            <div class="configured-rule__content">
+                                                                <span class={rule.typeClass}>{rule.typeLabel}</span>
+                                                                <strong>{rule.title}</strong>
+                                                                <span>{rule.detail}</span>
+                                                                <span class="configured-rule__meta">{rule.configKey} | {rule.meta}</span>
+                                                            </div>
+                                                            <div class="configured-rule__actions">
+                                                                <lightning-button label="Edit" data-config-type={rule.configType} data-config-key={rule.configKey} onclick={handleLoadQuestionConfig}></lightning-button>
+                                                                <lightning-button label="Delete" variant="destructive-text" data-config-type={rule.configType} data-config-key={rule.configKey} disabled={rule.isDeactivateDisabled} onclick={handleDeactivateQuestionConfigClick}></lightning-button>
+                                                            </div>
+                                                        </article>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <template if:false={hasSelectedQuestionValidationConfigRecords}>
+                                                <div class="empty">No validation rules are configured for this question yet.</div>
+                                            </template>
+                                        </section>
+
+                                        <template if:true={isValidationConfigDraftVisible}>
+                                            <div class="form-grid">
+                                                <lightning-input label="Config Key" value={configDraft.configKey} data-field="configKey" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input label="Label" value={configDraft.label} data-field="label" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input label="Question Key" value={activeConfigQuestionKey} data-field="questionKey" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input type="checkbox" label="Active" checked={configDraft.isActive} data-field="isActive" onchange={handleConfigChange}></lightning-input>
+                                            </div>
+
+                                            <section class="rule-card" aria-label="Validation rule fields">
+                                                <h3>Validation rule</h3>
+                                                <div class="form-grid form-grid_spaced">
+                                                    <lightning-combobox label="Validation Type" value={configDraft.validationType} options={validationTypeOptions} data-field="validationType" onchange={handleConfigChange}></lightning-combobox>
+                                                    <template if:true={showValidationRegexField}>
+                                                        <lightning-input label="Regex" value={configDraft.regex} data-field="regex" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMinLengthField}>
+                                                        <lightning-input type="number" label="Min Length" value={configDraft.minLength} data-field="minLength" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMaxLengthField}>
+                                                        <lightning-input type="number" label="Max Length" value={configDraft.maxLength} data-field="maxLength" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMinValueField}>
+                                                        <lightning-input type="number" label="Min Value" value={configDraft.minValue} data-field="minValue" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMaxValueField}>
+                                                        <lightning-input type="number" label="Max Value" value={configDraft.maxValue} data-field="maxValue" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMinDateField}>
+                                                        <lightning-input type="date" label="Min Date" value={configDraft.minDate} data-field="minDate" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={showValidationMaxDateField}>
+                                                        <lightning-input type="date" label="Max Date" value={configDraft.maxDate} data-field="maxDate" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <lightning-input label="Error Message" value={configDraft.errorMessage} data-field="errorMessage" onchange={handleConfigChange}></lightning-input>
+                                                </div>
+                                            </section>
+
+                                            <div class="actions">
+                                                <lightning-button label="Preview Validation Rule" icon-name="utility:preview" onclick={handlePreviewAdminConfigDraft} disabled={isConfigLoading}></lightning-button>
+                                                <lightning-button label="Deploy Validation Rule" icon-name="utility:upload" variant="brand" onclick={handleDeployConfigClick} disabled={isConfigDeployButtonDisabled}></lightning-button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </section>
+
+                                <section class="accordion-section" aria-label="Admin configuration builder">
+                                    <button type="button" class="accordion-section__header" data-section="actions" aria-expanded={isActionsAccordionOpen} onclick={handleAccordionToggle}>
+                                        <span>Actions</span>
+                                        <lightning-icon icon-name={actionsAccordionIcon} size="xx-small" alternative-text="Toggle actions"></lightning-icon>
+                                    </button>
+                                    <div class={actionsAccordionBodyClass}>
+                                        <section class="configured-rules" aria-label="Configured actions">
+                                            <div class="configured-rules__header">
+                                                <div>
+                                                    <h3>Actions for this question</h3>
+                                                    <p>Visibility, routing, blocking, and Flow hook actions attached to the selected question.</p>
+                                                </div>
+                                                <div class="configured-rules__header-actions">
+                                                    <button
+                                                        type="button"
+                                                        class="compact-action-button"
+                                                        title={questionConfigDraftButtonTitle}
+                                                        disabled={isQuestionConfigDraftButtonDisabled}
+                                                        onclick={handleNewActionConfigDraft}>
+                                                        <lightning-icon icon-name="utility:add" size="xx-small" alternative-text=""></lightning-icon>
+                                                        <span>Add action</span>
+                                                    </button>
+                                                    <template if:true={hasActionConfigDraftVisible}>
+                                                        <button type="button" class="compact-icon-button compact-icon-button_destructive" aria-label="Remove action draft" title="Remove draft" onclick={handleRemoveActionConfigDraft}>
+                                                            <lightning-icon icon-name="utility:close" size="xx-small" alternative-text=""></lightning-icon>
+                                                        </button>
+                                                    </template>
+                                                </div>
+                                            </div>
+
+                                            <template if:true={hasSelectedQuestionActionConfigRecords}>
+                                                <div class="configured-rule-list">
+                                                    <template for:each={selectedQuestionActionConfigRecords} for:item="rule">
+                                                        <article key={rule.key} class="configured-rule">
+                                                            <div class="configured-rule__content">
+                                                                <span class={rule.typeClass}>{rule.typeLabel}</span>
+                                                                <strong>{rule.title}</strong>
+                                                                <span>{rule.detail}</span>
+                                                                <span class="configured-rule__meta">{rule.configKey} | {rule.meta}</span>
+                                                            </div>
+                                                            <div class="configured-rule__actions">
+                                                                <lightning-button label="Edit" data-config-type={rule.configType} data-config-key={rule.configKey} onclick={handleLoadQuestionConfig}></lightning-button>
+                                                                <lightning-button label="Delete" variant="destructive-text" data-config-type={rule.configType} data-config-key={rule.configKey} disabled={rule.isDeactivateDisabled} onclick={handleDeactivateQuestionConfigClick}></lightning-button>
+                                                            </div>
+                                                        </article>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                            <template if:false={hasSelectedQuestionActionConfigRecords}>
+                                                <div class="empty">No actions are configured for this question yet.</div>
+                                            </template>
+                                        </section>
+
+                                        <template if:true={isActionConfigDraftVisible}>
+                                            <div class="form-grid">
+                                                <lightning-combobox label="Action Type" value={buildConfigTypeValue} options={actionConfigTypeOptions} data-field="configType" onchange={handleConfigChange}></lightning-combobox>
+                                                <lightning-input label="Config Key" value={configDraft.configKey} data-field="configKey" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input label="Label" value={configDraft.label} data-field="label" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input label="Question Key" value={activeConfigQuestionKey} data-field="questionKey" onchange={handleConfigChange}></lightning-input>
+                                                <lightning-input type="checkbox" label="Active" checked={configDraft.isActive} data-field="isActive" onchange={handleConfigChange}></lightning-input>
+                                            </div>
+
+                                            <template if:true={isConditionConfig}>
+                                                <section class="rule-card" aria-label="Conditional display fields">
+                                                    <h3>Condition or answer rule</h3>
+                                                    <div class="form-grid form-grid_spaced">
+                                                        <lightning-input label="Source Question / Data Key" value={configDraft.sourceQuestionKey} data-field="sourceQuestionKey" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="Target Question Key" value={configDraft.targetQuestionKey} data-field="targetQuestionKey" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-combobox label="Action" value={configDraft.action} options={conditionActionOptions} data-field="action" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-combobox label="Operator" value={configDraft.operator} options={conditionOperatorOptionsForSource} data-field="operator" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-input label="Compare Value" value={configDraft.compareValue} placeholder={conditionComparePlaceholder} data-field="compareValue" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="Condition Group Key" value={configDraft.conditionGroupKey} data-field="conditionGroupKey" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-combobox label="Condition Logic" value={configDraft.conditionLogic} options={conditionLogicOptions} data-field="conditionLogic" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-input type="number" label="Condition Number" value={configDraft.conditionNumber} data-field="conditionNumber" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input type="number" label="Sort Order" value={configDraft.sortOrder} data-field="sortOrder" onchange={handleConfigChange}></lightning-input>
+                                                    </div>
+                                                    <template if:true={isCustomConditionLogic}>
+                                                        <lightning-input label="Custom Logic" value={configDraft.customLogic} placeholder="1 AND (2 OR 3)" data-field="customLogic" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                    <template if:true={isBlockCondition}>
+                                                        <lightning-input label="User Message" value={configDraft.userMessage} placeholder="Tell the user why this answer cannot continue" data-field="userMessage" onchange={handleConfigChange}></lightning-input>
+                                                    </template>
+                                                </section>
+                                            </template>
+
+                                            <template if:true={isHookConfig}>
+                                                <section class="rule-card" aria-label="Flow hook fields">
+                                                    <h3>Flow hook</h3>
+                                                    <div class="form-grid form-grid_spaced">
+                                                        <lightning-combobox label="Event" value={configDraft.eventName} options={hookEventOptions} data-field="eventName" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-combobox label="Handler" value={configDraft.handlerType} options={hookHandlerTypeOptions} data-field="handlerType" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-combobox label="Invocable Flow" value={configDraft.flowApiName} options={flowApiNameOptions} data-field="flowApiName" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-combobox label="Output Mode" value={configDraft.outputMode} options={hookOutputModeOptions} data-field="outputMode" onchange={handleConfigChange}></lightning-combobox>
+                                                        <lightning-input type="number" label="Sort Order" value={configDraft.sortOrder} data-field="sortOrder" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="Success Output Variable" value={configDraft.successOutputVariable} data-field="successOutputVariable" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="User Message Output Variable" value={configDraft.userMessageOutputVariable} data-field="userMessageOutputVariable" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="Next Question Output Variable" value={configDraft.nextQuestionOutputVariable} data-field="nextQuestionOutputVariable" onchange={handleConfigChange}></lightning-input>
+                                                        <lightning-input label="Block Continue Output Variable" value={configDraft.blockContinueOutputVariable} data-field="blockContinueOutputVariable" onchange={handleConfigChange}></lightning-input>
+                                                        <template if:true={isAdvancedHookOutputMode}>
+                                                            <lightning-input label="Answers JSON Output Variable" value={configDraft.answersJsonOutputVariable} data-field="answersJsonOutputVariable" onchange={handleConfigChange}></lightning-input>
+                                                        </template>
+                                                    </div>
+
+                                                    <template if:true={isFlowMetadataLoading}>
+                                                        <lightning-spinner size="small" alternative-text="Loading Flow variables"></lightning-spinner>
+                                                    </template>
+
+                                                    <template if:true={hasSelectedFlowInputVariables}>
+                                                        <section class="flow-variable-panel" aria-label="Flow input variable mappings">
+                                                            <h4>Flow Input Variables</h4>
+                                                            <div class="flow-variable-list">
+                                                                <template for:each={flowInputMappingRows} for:item="variable">
+                                                                    <div key={variable.key} class="flow-variable-row">
+                                                                        <div class="flow-variable-row__meta">
+                                                                            <strong>{variable.apiName}</strong>
+                                                                            <span>{variable.typeDetail}</span>
+                                                                        </div>
+                                                                        <lightning-combobox label="Value Source" value={variable.sourceKey} options={flowInputSourceOptions} data-variable-name={variable.apiName} onchange={handleFlowInputMappingChange}></lightning-combobox>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </section>
+                                                    </template>
+                                                    <template if:false={hasSelectedFlowInputVariables}>
+                                                        <lightning-textarea label="Flow Input Mappings" value={configDraft.flowInputMappings} data-field="flowInputMappings" onchange={handleConfigChange}></lightning-textarea>
+                                                    </template>
+
+                                                    <template if:true={isBasicHookOutputMode}>
+                                                        <template if:true={hasSelectedFlowOutputVariables}>
+                                                            <section class="flow-variable-panel" aria-label="Flow output variable mappings">
+                                                                <h4>Flow Output Variables</h4>
+                                                                <div class="flow-variable-list">
+                                                                    <template for:each={flowOutputMappingRows} for:item="variable">
+                                                                        <div key={variable.key} class="flow-variable-row">
+                                                                            <div class="flow-variable-row__meta">
+                                                                                <strong>{variable.apiName}</strong>
+                                                                                <span>{variable.typeDetail}</span>
+                                                                            </div>
+                                                                            <div class="flow-variable-row__control">
+                                                                                <lightning-input
+                                                                                    label="Store As"
+                                                                                    value={variable.answerKey}
+                                                                                    placeholder={variable.storeAsPlaceholder}
+                                                                                    disabled={variable.isHookControlOutput}
+                                                                                    data-variable-name={variable.apiName}
+                                                                                    onchange={handleFlowOutputMappingChange}>
+                                                                                </lightning-input>
+                                                                                <span>{variable.outputMappingHelpText}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </section>
+                                                        </template>
+                                                        <template if:false={hasSelectedFlowOutputVariables}>
+                                                            <lightning-textarea label="Flow Output Mappings" value={configDraft.flowOutputMappings} data-field="flowOutputMappings" onchange={handleConfigChange}></lightning-textarea>
+                                                        </template>
+                                                    </template>
+                                                </section>
+                                            </template>
+
+                                            <div class="actions">
+                                                <lightning-button label="Preview Action" icon-name="utility:preview" onclick={handlePreviewAdminConfigDraft} disabled={isConfigLoading}></lightning-button>
+                                                <lightning-button label="Deploy Action" icon-name="utility:upload" variant="brand" onclick={handleDeployConfigClick} disabled={isConfigDeployButtonDisabled}></lightning-button>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </section>
+
+                                <div class="actions action-bar">
+                                    <lightning-button
+                                        label="Preview Question Metadata"
+                                        icon-name="utility:preview"
+                                        variant="brand"
+                                        data-testid="builder-preview-metadata"
+                                        onclick={handlePreviewQuestionDraft}
+                                        disabled={isBuilderLoading}>
+                                    </lightning-button>
+                                    <lightning-button
+                                        label="Deploy Question"
+                                        icon-name="utility:upload"
+                                        variant="brand"
+                                        data-testid="builder-deploy-metadata"
+                                        onclick={handleDeployQuestionClick}
+                                        disabled={isDeployButtonDisabled}>
+                                    </lightning-button>
+                                </div>
+                            </section>
+
+                            <aside class="preview-panel" aria-label="Question preview">
+                                <div class="section-heading section-heading_compact">
+                                    <div>
+                                        <h2>Preview</h2>
+                                        <p>Approximate chat card before deployment.</p>
+                                    </div>
+                                </div>
+                                <div class="chat-preview">
+                                    <div class="chat-preview__bubble">Here's the next question.</div>
+                                    <div class="chat-preview__card">
+                                        <h3>{previewQuestionText}</h3>
+                                        <p>{previewHelpText}</p>
+                                        <div class="chat-preview__control">
+                                            <span>{previewUiControl}</span>
+                                            <strong>{previewInputType}</strong>
+                                        </div>
+                                        <div class="chat-preview__answer">{previewPlaceholderText}</div>
+                                    </div>
+                                    <div class="chat-preview__meta">{previewRequiredLabel}</div>
+                                </div>
+
+                                <template if:true={hasBuilderPlan}>
+                                    <section class="plan-card" aria-label="Question metadata plan">
+                                        <div class={builderPlan.statusClass}>{builderPlan.statusLabel}</div>
+                                        <div class="builder-plan__meta">
+                                            <span>{builderPlan.recordCount} records</span>
+                                            <span>{builderPlan.errorCount} errors</span>
+                                            <span>{builderPlan.warningCount} warnings</span>
+                                            <span>{builderPlan.metadataWriteStatus}</span>
+                                        </div>
+                                        <div class="builder-plan__notice">{builderPlan.metadataWriteNotice}</div>
+                                        <template if:true={builderPlan.hasDeploymentStatus}>
+                                            <div class="deployment-status" aria-label="Question deployment status">
+                                                <div class="deployment-status__header">
+                                                    <span>{builderPlan.deploymentStatus.statusLabel}</span>
+                                                    <code>{builderPlan.deploymentStatus.deploymentJobId}</code>
+                                                </div>
+                                                <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                    <span style={builderPlan.deploymentStatus.progressStyle}></span>
+                                                </div>
+                                                <div class="deployment-status__meta">
+                                                    <span>{builderPlan.deploymentStatus.componentProgressLabel}</span>
+                                                    <span>{builderPlan.deploymentStatus.testProgressLabel}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </section>
+                                </template>
+
+                                <template if:true={hasConfigPlan}>
+                                    <section class="plan-card" aria-label="Rule metadata plan">
+                                        <div class={configPlan.statusClass}>{configPlan.statusLabel}</div>
+                                        <div class="builder-plan__meta">
+                                            <span>{configPlan.recordCount} records</span>
+                                            <span>{configPlan.errorCount} errors</span>
+                                            <span>{configPlan.warningCount} warnings</span>
+                                            <span>{configPlan.metadataWriteStatus}</span>
+                                        </div>
+                                        <div class="builder-plan__notice">{configPlan.metadataWriteNotice}</div>
+                                        <template if:true={hasConfigIssues}>
+                                            <div class="issues-list builder-plan__issues" role="status">
+                                                <template for:each={configPlan.issues} for:item="issue">
+                                                    <article key={issue.key} class={issue.className}>
+                                                        <div class="issue__header">
+                                                            <span class="issue__severity">{issue.severity}</span>
+                                                            <span class="issue__code">{issue.code}</span>
+                                                        </div>
+                                                        <div class="issue__target">{issue.componentType}: {issue.componentKey}</div>
+                                                        <div class="issue__message">{issue.message}</div>
+                                                    </article>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template if:true={configPlan.hasDeploymentStatus}>
+                                            <div class="deployment-status" aria-label="Rule deployment status">
+                                                <div class="deployment-status__header">
+                                                    <span>{configPlan.deploymentStatus.statusLabel}</span>
+                                                    <code>{configPlan.deploymentStatus.deploymentJobId}</code>
+                                                </div>
+                                                <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                    <span style={configPlan.deploymentStatus.progressStyle}></span>
+                                                </div>
+                                                <div class="deployment-status__meta">
+                                                    <span>{configPlan.deploymentStatus.componentProgressLabel}</span>
+                                                    <span>{configPlan.deploymentStatus.testProgressLabel}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </section>
+                                </template>
+                            </aside>
+                        </div>
+
+                        <section class="template-final-save panel-block" aria-label="Final Save Mappings">
+                            <div class="configured-rules__header">
+                                <div>
+                                    <h2>Final Save Mappings</h2>
+                                    <p>Map collected question answers and Flow output keys to the record created after confirmation.</p>
+                                </div>
+                                <div class="configured-rules__header-actions">
+                                    <button type="button" class="compact-action-button" onclick={handleNewFinalSaveMappingDraft}>
+                                        <lightning-icon icon-name="utility:add" size="xx-small" alternative-text=""></lightning-icon>
+                                        <span>Add mapping</span>
+                                    </button>
+                                    <template if:true={hasFinalSaveMappingDraftVisible}>
+                                        <button type="button" class="compact-icon-button compact-icon-button_destructive" aria-label="Remove final save mapping draft" title="Remove draft" onclick={handleRemoveFinalSaveMappingDraft}>
+                                            <lightning-icon icon-name="utility:close" size="xx-small" alternative-text=""></lightning-icon>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <template if:true={hasFinalSaveMappingRecords}>
+                                <div class="configured-rule-list final-save-list">
+                                    <template for:each={finalSaveMappingRecords} for:item="mapping">
+                                        <article key={mapping.key} class="configured-rule">
+                                            <div class="configured-rule__content">
+                                                <span class="configured-rule__type configured-rule__type_hook">{mapping.sourceType}</span>
+                                                <strong>{mapping.title}</strong>
+                                            </div>
+                                            <div class="configured-rule__actions">
+                                                <lightning-button-icon icon-name="utility:edit" alternative-text="Edit mapping" title="Edit mapping" data-config-key={mapping.configKey} onclick={handleLoadFinalSaveMapping}></lightning-button-icon>
+                                                <lightning-button-icon icon-name="utility:delete" alternative-text="Delete mapping" title="Delete mapping" variant="border-filled" data-config-key={mapping.configKey} disabled={mapping.isDeactivateDisabled} onclick={handleDeactivateFinalSaveMappingClick}></lightning-button-icon>
+                                            </div>
+                                        </article>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={hasFinalSaveMappingRecords}>
+                                <div class="empty final-save-list">No final save mappings are configured yet.</div>
+                            </template>
+
+                            <template if:true={isFinalSaveMappingDraftVisible}>
+                                <section class="final-save-editor" aria-label="Admin configuration builder">
+                                    <div class="form-grid form-grid_spaced">
+                                        <lightning-combobox label="Source Question / Data Key" value={configDraft.questionKey} options={finalSaveSourceOptions} data-field="questionKey" onchange={handleConfigChange}></lightning-combobox>
+                                        <lightning-combobox label="Target Object" value={configDraft.objectApiName} options={finalSaveTargetObjectOptions} data-field="objectApiName" onchange={handleConfigChange}></lightning-combobox>
+                                        <lightning-combobox label="Target Field" value={configDraft.fieldApiName} options={finalSaveTargetFieldOptions} data-field="fieldApiName" disabled={isFinalSaveTargetFieldDisabled} onchange={handleConfigChange}></lightning-combobox>
+                                    </div>
+                                    <div class="actions">
+                                        <lightning-button label="Preview" icon-name="utility:preview" onclick={handlePreviewAdminConfigDraft} disabled={isConfigLoading}></lightning-button>
+                                        <lightning-button label="Deploy" icon-name="utility:upload" variant="brand" onclick={handleDeployConfigClick} disabled={isConfigDeployButtonDisabled}></lightning-button>
+                                    </div>
+                                </section>
+                            </template>
+                        </section>
+                    </section>
+                </template>
+
+                <template if:true={isChannelsTab}>
+                    <section class="workspace" aria-label="Channels">
+                        <template if:true={isConfigurationLoading}>
+                            <div class="centered">
+                                <lightning-spinner alternative-text="Loading channel configuration" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+
+                        <div class="channels-layout">
+                            <section class="panel-block" aria-label="Existing channel configuration">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Configured Routes</h2>
+                                        <p>Current SmartIntake channel, matching, handoff, and context records.</p>
+                                    </div>
+                                </div>
+                                <template if:true={hasChannelConfigurationSections}>
+                                    <div class="channel-config-list">
+                                        <template for:each={channelConfigurationSections} for:item="section">
+                                            <article key={section.key} class="channel-config-card">
+                                                <h3>{section.displayLabel}</h3>
+                                                <template if:true={section.hasRecords}>
+                                                    <template for:each={section.records} for:item="record">
+                                                        <div key={record.key} class="channel-config-record">
+                                                            <div>
+                                                                <strong>{record.label}</strong>
+                                                                <span>{record.subtitle}</span>
+                                                            </div>
+                                                            <div class="config-record__actions">
+                                                                <span class={record.statusClass}>{record.status}</span>
+                                                                <lightning-button-icon
+                                                                    icon-name="utility:delete"
+                                                                    alternative-text="Delete"
+                                                                    title="Delete"
+                                                                    variant="border-filled"
+                                                                    data-section-key={section.key}
+                                                                    data-metadata-full-name={record.metadataFullName}
+                                                                    disabled={record.isDeactivateDisabled}
+                                                                    onclick={handleDeactivateConfigRecordClick}>
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template if:false={section.hasRecords}>
+                                                    <div class="empty">No records.</div>
+                                                </template>
+                                            </article>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={hasChannelConfigurationSections}>
+                                    <div class="empty">No channel configuration records are loaded for this template.</div>
+                                </template>
+                            </section>
+
+                            <section class="panel-block" aria-label="Admin configuration builder">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Route Builder</h2>
+                                        <p>Configure SmartIntake routing metadata. Display name, avatar, and welcome branding stay in Salesforce channel setup.</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <lightning-combobox label="Configuration Type" value={channelConfigTypeValue} options={channelConfigTypeOptions} data-field="configType" onchange={handleConfigChange}></lightning-combobox>
+                                    <lightning-input label="Config Key" value={configDraft.configKey} data-field="configKey" onchange={handleConfigChange}></lightning-input>
+                                    <lightning-input label="Label" value={configDraft.label} data-field="label" onchange={handleConfigChange}></lightning-input>
+                                    <lightning-input type="checkbox" label="Active" checked={configDraft.isActive} data-field="isActive" onchange={handleConfigChange}></lightning-input>
+                                </div>
+
+                                <template if:true={isHandoffConfig}>
+                                    <section class="rule-card" aria-label="Handoff fields">
+                                        <h3>Handoff route</h3>
+                                        <div class="form-grid form-grid_spaced">
+                                            <lightning-combobox label="Provider" value={configDraft.providerType} options={providerTypeOptions} data-field="providerType" onchange={handleConfigChange}></lightning-combobox>
+                                            <lightning-combobox label="Availability" value={configDraft.availabilityMode} options={availabilityModeOptions} data-field="availabilityMode" onchange={handleConfigChange}></lightning-combobox>
+                                            <lightning-input label="Messaging Channel Developer Name" value={configDraft.messagingChannelDeveloperName} data-field="messagingChannelDeveloperName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Embedded Service Deployment Name" value={configDraft.embeddedServiceDeploymentName} data-field="embeddedServiceDeploymentName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Queue Developer Name" value={configDraft.queueDeveloperName} data-field="queueDeveloperName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="External Handoff URL" value={configDraft.handoffUrl} data-field="handoffUrl" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input type="checkbox" label="Requires Consent" checked={configDraft.requiresConsent} data-field="requiresConsent" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-textarea label="Consent Message" value={configDraft.consentMessage} data-field="consentMessage" onchange={handleConfigChange}></lightning-textarea>
+                                            <lightning-input type="checkbox" label="Share Context" checked={configDraft.isContextSharingEnabled} data-field="isContextSharingEnabled" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Context Fields to Share" value={configDraft.contextFieldsToShare} data-field="contextFieldsToShare" onchange={handleConfigChange}></lightning-input>
+                                        </div>
+                                    </section>
+                                </template>
+
+                                <template if:true={isMessageConfig}>
+                                    <section class="rule-card" aria-label="Message fields">
+                                        <h3>Template message</h3>
+                                        <div class="form-grid form-grid_spaced">
+                                            <lightning-input label="Message Type" value={configDraft.messageType} data-field="messageType" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-textarea label="Message Text" value={configDraft.messageText} data-field="messageText" onchange={handleConfigChange}></lightning-textarea>
+                                        </div>
+                                    </section>
+                                </template>
+
+                                <template if:true={isMatchingConfig}>
+                                    <section class="rule-card" aria-label="Matching rule fields">
+                                        <h3>Record matching</h3>
+                                        <div class="form-grid form-grid_spaced">
+                                            <lightning-input label="Object API Name" value={configDraft.objectApiName} data-field="objectApiName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Field API Name" value={configDraft.fieldApiName} data-field="fieldApiName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Display Field API Name" value={configDraft.displayFieldApiName} data-field="displayFieldApiName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Filter Field API Name" value={configDraft.filterFieldApiName} data-field="filterFieldApiName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-combobox label="Match Type" value={configDraft.matchType} options={matchTypeOptions} data-field="matchType" onchange={handleConfigChange}></lightning-combobox>
+                                        </div>
+                                    </section>
+                                </template>
+
+                                <template if:true={isContextConfig}>
+                                    <section class="rule-card" aria-label="Context config fields">
+                                        <h3>Context sharing</h3>
+                                        <div class="form-grid form-grid_spaced">
+                                            <lightning-input label="Object API Name" value={configDraft.objectApiName} data-field="objectApiName" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-combobox label="Context Type" value={configDraft.contextType} options={contextTypeOptions} data-field="contextType" onchange={handleConfigChange}></lightning-combobox>
+                                            <lightning-input label="Filter Source Question Key" value={configDraft.filterSourceQuestionKey} data-field="filterSourceQuestionKey" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input label="Allowed Actions" value={configDraft.allowedActions} data-field="allowedActions" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-input type="number" label="Max Records" value={configDraft.maxRecords} data-field="maxRecords" onchange={handleConfigChange}></lightning-input>
+                                            <lightning-textarea label="Context Message" value={configDraft.contextMessage} data-field="contextMessage" onchange={handleConfigChange}></lightning-textarea>
+                                        </div>
+                                    </section>
+                                </template>
+
+                                <div class="actions">
+                                    <lightning-button label="Preview Channel Config" icon-name="utility:preview" onclick={handlePreviewAdminConfigDraft} disabled={isConfigLoading}></lightning-button>
+                                    <lightning-button label="Deploy Channel Config" icon-name="utility:upload" variant="brand" onclick={handleDeployConfigClick} disabled={isConfigDeployButtonDisabled}></lightning-button>
+                                </div>
+
+                                <template if:true={hasConfigPlan}>
+                                    <section class="plan-card" aria-label="Channel metadata plan">
+                                        <div class={configPlan.statusClass}>{configPlan.statusLabel}</div>
+                                        <div class="builder-plan__meta">
+                                            <span>{configPlan.recordCount} records</span>
+                                            <span>{configPlan.errorCount} errors</span>
+                                            <span>{configPlan.warningCount} warnings</span>
+                                            <span>{configPlan.metadataWriteStatus}</span>
+                                        </div>
+                                        <div class="builder-plan__notice">{configPlan.metadataWriteNotice}</div>
+                                        <template if:true={hasConfigIssues}>
+                                            <div class="issues-list builder-plan__issues" role="status">
+                                                <template for:each={configPlan.issues} for:item="issue">
+                                                    <article key={issue.key} class={issue.className}>
+                                                        <div class="issue__header">
+                                                            <span class="issue__severity">{issue.severity}</span>
+                                                            <span class="issue__code">{issue.code}</span>
+                                                        </div>
+                                                        <div class="issue__target">{issue.componentType}: {issue.componentKey}</div>
+                                                        <div class="issue__message">{issue.message}</div>
+                                                    </article>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template if:true={configPlan.hasDeploymentStatus}>
+                                            <div class="deployment-status" aria-label="Channel deployment status">
+                                                <div class="deployment-status__header">
+                                                    <span>{configPlan.deploymentStatus.statusLabel}</span>
+                                                    <code>{configPlan.deploymentStatus.deploymentJobId}</code>
+                                                </div>
+                                                <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                    <span style={configPlan.deploymentStatus.progressStyle}></span>
+                                                </div>
+                                                <div class="deployment-status__meta">
+                                                    <span>{configPlan.deploymentStatus.componentProgressLabel}</span>
+                                                    <span>{configPlan.deploymentStatus.testProgressLabel}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </section>
+                                </template>
+                            </section>
+                        </div>
+                    </section>
+                </template>
+
+                <template if:true={isTestTab}>
+                    <section class="workspace" aria-label="Test">
+                        <section class="panel-block">
+                            <div class="section-heading">
+                                <div>
+                                    <h2>Readiness Check</h2>
+                                    <p>Re-run validation before trying Enhanced Chat, WhatsApp, or the Agentforce preview CLI.</p>
+                                </div>
+                                <lightning-button label="Re-run validation" icon-name="utility:refresh" variant="brand" onclick={handleValidate} disabled={isLoading}></lightning-button>
+                            </div>
+                            <div class="readiness-summary">
+                                <span><strong>{readinessPassedCount}</strong> passed</span>
+                                <span><strong>{readinessWarningCount}</strong> warnings</span>
+                                <span><strong>{readinessBlockedCount}</strong> blocked</span>
+                            </div>
+                        </section>
+
+                        <div class="two-column">
+                            <section class="panel-block">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Checklist</h2>
+                                        <p>Readiness checks for the selected template.</p>
+                                    </div>
+                                </div>
+                                <div class="stack-list">
+                                    <template for:each={readinessItems} for:item="item">
+                                        <article key={item.key} class={item.className}>
+                                            <div class="readiness-item__header">
+                                                <span>{item.label}</span>
+                                                <span>{item.status}</span>
+                                            </div>
+                                            <div class="readiness-item__message">{item.message}</div>
+                                        </article>
+                                    </template>
+                                </div>
+                            </section>
+
+                            <section class="panel-block">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Conversation Preview</h2>
+                                        <p>Expected next question and answer shape.</p>
+                                    </div>
+                                </div>
+                                <div class="chat-preview chat-preview_wide">
+                                    <div class="chat-preview__bubble">SmartIntake joined.</div>
+                                    <div class="chat-preview__card">
+                                        <h3>{previewQuestionText}</h3>
+                                        <p>{previewHelpText}</p>
+                                        <div class="chat-preview__control">
+                                            <span>{previewUiControl}</span>
+                                            <strong>{previewInputType}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="chat-preview__meta">Answer saved under {builderDraft.questionKey}</div>
+                                </div>
+                            </section>
+                        </div>
+                    </section>
+                </template>
+
+                <template if:true={isAdvancedTab}>
+                    <section class="workspace" aria-label="Advanced">
+                        <div class="two-column">
+                            <section class="panel-block">
+	                                <div class="section-heading">
+	                                    <div>
+	                                        <h2>Custom Control Registry</h2>
+	                                        <p>Generate static LWC imports from active questions that use direct c/... UI controls.</p>
+	                                    </div>
+	                                </div>
+                                <div class="actions">
+                                    <lightning-button label="Preview Registry" icon-name="utility:preview" onclick={handlePreviewCustomControlRegistry} disabled={isRegistryLoading}></lightning-button>
+                                    <lightning-button label="Sync Registry" icon-name="utility:sync" variant="brand" onclick={handleDeploySyncClick} disabled={isRegistrySyncButtonDisabled}></lightning-button>
+                                </div>
+                                <template if:true={hasRegistryPlan}>
+                                    <section class="plan-card" aria-label="Custom control registry plan">
+                                        <div class={registryPlan.statusClass}>{registryPlan.statusLabel}</div>
+                                        <div class="builder-plan__meta">
+                                            <span>{registryPlan.recordCount} records</span>
+                                            <span>{registryPlan.errorCount} errors</span>
+                                            <span>{registryPlan.warningCount} warnings</span>
+                                            <span>{registryPlan.metadataWriteStatus}</span>
+                                        </div>
+                                        <div class="builder-plan__notice">{registryPlan.metadataWriteNotice}</div>
+                                        <template if:true={hasRegistryIssues}>
+                                            <div class="issues-list" role="status">
+                                                <template for:each={registryPlan.issues} for:item="issue">
+                                                    <article key={issue.key} class={issue.className}>
+                                                        <strong>{issue.componentType}</strong>
+                                                        <span>{issue.message}</span>
+                                                    </article>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <template if:true={registryPlan.hasDeploymentStatus}>
+                                            <div class="deployment-status" aria-label="Registry deployment status">
+                                                <div class="deployment-status__header">
+                                                    <span>{registryPlan.deploymentStatus.statusLabel}</span>
+                                                    <code>{registryPlan.deploymentStatus.deploymentJobId}</code>
+                                                </div>
+                                                <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                    <span style={registryPlan.deploymentStatus.progressStyle}></span>
+                                                </div>
+                                                <div class="deployment-status__meta">
+                                                    <span>{registryPlan.deploymentStatus.componentProgressLabel}</span>
+                                                    <span>{registryPlan.deploymentStatus.testProgressLabel}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </section>
+                                </template>
+                            </section>
+
+                            <section class="panel-block">
+                                <div class="section-heading">
+                                    <div>
+                                        <h2>Template Shortcut</h2>
+                                        <p>Create another starter template without leaving this workspace.</p>
+                                    </div>
+                                </div>
+                                <lightning-button label="New Template" icon-name="utility:add" variant="brand" onclick={handleNewTemplate}></lightning-button>
+                            </section>
+                        </div>
+
+                        <section class="panel-block configuration" aria-label="Template configuration">
+                            <div class="section-heading">
+                                <div>
+                                    <h2>Metadata Explorer</h2>
+                                    <p>Read-only view of the records currently driving this template.</p>
+                                </div>
+                            </div>
+                            <template if:true={isConfigurationLoading}>
+                                <div class="centered">
+                                    <lightning-spinner alternative-text="Loading template metadata" size="small"></lightning-spinner>
+                                </div>
+                            </template>
+                            <template if:true={hasDeletePlan}>
+                                <section class="plan-card" aria-label="Delete metadata plan">
+                                    <div class={deletePlan.statusClass}>{deletePlan.statusLabel}</div>
+                                    <div class="builder-plan__meta">
+                                        <span>{deletePlan.recordCount} records</span>
+                                        <span>{deletePlan.errorCount} errors</span>
+                                        <span>{deletePlan.warningCount} warnings</span>
+                                        <span>{deletePlan.metadataWriteStatus}</span>
+                                    </div>
+                                    <div class="builder-plan__notice">{deletePlan.metadataWriteNotice}</div>
+                                    <template if:true={deletePlan.hasDeploymentStatus}>
+                                        <div class="deployment-status" aria-label="Delete deployment status">
+                                            <div class="deployment-status__header">
+                                                <span>{deletePlan.deploymentStatus.statusLabel}</span>
+                                                <code>{deletePlan.deploymentStatus.deploymentJobId}</code>
+                                            </div>
+                                            <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                <span style={deletePlan.deploymentStatus.progressStyle}></span>
+                                            </div>
+                                            <div class="deployment-status__meta">
+                                                <span>{deletePlan.deploymentStatus.componentProgressLabel}</span>
+                                                <span>{deletePlan.deploymentStatus.testProgressLabel}</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </section>
+                            </template>
+                            <template if:true={hasConfiguration}>
+                                <div class="config-sections">
+                                    <template for:each={configurationSections} for:item="section">
+                                        <section key={section.key} class="config-section">
+                                            <h3>{section.displayLabel}</h3>
+                                            <template if:true={section.hasRecords}>
+                                                <template for:each={section.records} for:item="record">
+                                                    <article key={record.key} class="config-record">
+                                                        <div class="config-record__header">
+                                                            <div>
+                                                                <div class="config-record__title">{record.label}</div>
+                                                                <div class="config-record__subtitle">{record.subtitle}</div>
+                                                            </div>
+                                                            <div class="config-record__actions">
+                                                                <div class={record.statusClass}>{record.status}</div>
+                                                                <lightning-button-icon
+                                                                    icon-name="utility:delete"
+                                                                    alternative-text="Delete"
+                                                                    title="Delete"
+                                                                    variant="border-filled"
+                                                                    data-section-key={section.key}
+                                                                    data-metadata-full-name={record.metadataFullName}
+                                                                    disabled={record.isDeactivateDisabled}
+                                                                    onclick={handleDeactivateConfigRecordClick}>
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                        </div>
+                                                        <dl class="config-fields">
+                                                            <template for:each={record.fields} for:item="field">
+                                                                <div key={field.key} class="config-field">
+                                                                    <dt class="config-field__label">{field.label}</dt>
+                                                                    <dd class="config-field__value">{field.value}</dd>
+                                                                </div>
+                                                            </template>
+                                                        </dl>
+                                                    </article>
+                                                </template>
+                                            </template>
+                                            <template if:false={section.hasRecords}>
+                                                <div class="empty" role="status">No configuration records.</div>
+                                            </template>
+                                        </section>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={hasConfiguration}>
+                                <div class="empty" role="status">Open Build, Channels, or Advanced to load template configuration.</div>
+                            </template>
+                        </section>
+                    </section>
+                </template>
+                </main>
+            </div>
+            </template>
+
+            <template if:true={isCreatingTemplate}>
+                <section class="modal-backdrop" role="presentation">
+                    <div class="modal modal_large" role="dialog" aria-modal="true" aria-label="Create SmartIntake template">
+                        <header class="modal__header">
+                            <div>
+                                <div class="console-kicker">New template</div>
+                                <h2>Create SmartIntake Template</h2>
+                            </div>
+                            <button type="button" class="modal__close" aria-label="Close new template wizard" onclick={handleWizardClose}>x</button>
+                        </header>
+
+                        <div class="wizard-steps" aria-label="Template setup steps">
+                            <div class={wizardStepOneClass}>1. Template</div>
+                            <div class={wizardStepTwoClass}>2. Messages</div>
+                            <div class={wizardStepThreeClass}>3. Review</div>
+                        </div>
+
+                        <section class="wizard-body" aria-label="Template creation wizard">
+                            <template if:true={isSetupStepOne}>
+                                <div class="form-grid">
+                                    <lightning-input label="Template Name" value={setupDraft.templateName} data-field="templateName" onchange={handleSetupChange}></lightning-input>
+                                    <lightning-input label="Template Key" value={setupDraft.templateKey} data-field="templateKey" onchange={handleSetupChange}></lightning-input>
+                                    <lightning-input label="Start Question Key" value={setupDraft.startQuestionKey} data-field="startQuestionKey" onchange={handleSetupChange}></lightning-input>
+                                </div>
+                                <div class="form-grid form-grid_spaced">
+                                    <lightning-input type="checkbox" label="Active" checked={setupDraft.isActive} data-field="isActive" onchange={handleSetupChange}></lightning-input>
+                                    <lightning-input type="checkbox" label="Requires Consent" checked={setupDraft.requiresConsent} data-field="requiresConsent" onchange={handleSetupChange}></lightning-input>
+                                    <lightning-input type="checkbox" label="Requires Final Confirmation" checked={setupDraft.requiresFinalConfirmation} data-field="requiresFinalConfirmation" onchange={handleSetupChange}></lightning-input>
+                                </div>
+                            </template>
+
+                            <template if:true={isSetupStepTwo}>
+                                <div class="form-grid">
+                                    <lightning-textarea label="Consent Message" value={setupDraft.consentMessage} data-field="consentMessage" onchange={handleSetupChange}></lightning-textarea>
+                                    <lightning-textarea label="Completion Message" value={setupDraft.completionMessage} data-field="completionMessage" onchange={handleSetupChange}></lightning-textarea>
+                                </div>
+                            </template>
+
+                            <template if:true={isSetupStepThree}>
+                                <template if:true={isSetupLoading}>
+                                    <div class="centered">
+                                        <lightning-spinner alternative-text="Previewing template metadata" size="small"></lightning-spinner>
+                                    </div>
+                                </template>
+                                <template if:true={hasSetupPlan}>
+                                    <section class="plan-card" aria-label="Template starter metadata plan">
+                                        <div class={setupPlan.statusClass}>{setupPlan.statusLabel}</div>
+                                        <div class="builder-plan__meta">
+                                            <span>{setupPlan.recordCount} records</span>
+                                            <span>{setupPlan.errorCount} errors</span>
+                                            <span>{setupPlan.warningCount} warnings</span>
+                                            <span>{setupPlan.metadataWriteStatus}</span>
+                                        </div>
+                                        <div class="builder-plan__notice">{setupPlan.metadataWriteNotice}</div>
+                                        <template if:true={setupPlan.hasDeploymentStatus}>
+                                            <div class="deployment-status" aria-label="Template deployment status">
+                                                <div class="deployment-status__header">
+                                                    <span>{setupPlan.deploymentStatus.statusLabel}</span>
+                                                    <code>{setupPlan.deploymentStatus.deploymentJobId}</code>
+                                                </div>
+                                                <div class="deployment-status__bar" aria-label="Deployment progress">
+                                                    <span style={setupPlan.deploymentStatus.progressStyle}></span>
+                                                </div>
+                                                <div class="deployment-status__meta">
+                                                    <span>{setupPlan.deploymentStatus.componentProgressLabel}</span>
+                                                    <span>{setupPlan.deploymentStatus.testProgressLabel}</span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:true={hasSetupIssues}>
+                                            <div class="stack-list">
+                                                <template for:each={setupPlan.issues} for:item="issue">
+                                                    <article key={issue.key} class={issue.className}>
+                                                        <div class="issue__header">
+                                                            <span class="issue__severity">{issue.severity}</span>
+                                                            <span class="issue__code">{issue.code}</span>
+                                                        </div>
+                                                        <div class="issue__message">{issue.message}</div>
+                                                    </article>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </section>
+                                </template>
+                            </template>
+                        </section>
+
+                        <footer class="modal__footer">
+                            <lightning-button label="Back" onclick={handleWizardBack} disabled={wizardBackDisabled}></lightning-button>
+                            <template if:false={isSetupStepThree}>
+                                <lightning-button label={wizardNextLabel} variant="brand" onclick={handleWizardNext} disabled={isSetupLoading}></lightning-button>
+                            </template>
+                            <template if:true={isSetupStepThree}>
+                                <lightning-button label="Refresh Preview" onclick={handlePreviewTemplateDraft} disabled={isSetupLoading}></lightning-button>
+                                <lightning-button label="Deploy Template" variant="brand" onclick={handleWizardFinish} disabled={isSetupDeployButtonDisabled}></lightning-button>
+                            </template>
+                        </footer>
+                    </div>
+                </section>
+            </template>
+
+            <template if:true={hasConfirmModal}>
+                <section class="modal-backdrop" role="presentation">
+                    <div class="modal" role="dialog" aria-modal="true" aria-label={confirmModal.title}>
+                        <header class="modal__header">
+                            <h2>{confirmModal.title}</h2>
+                            <button type="button" class="modal__close" aria-label="Cancel confirmation" onclick={handleModalCancel}>x</button>
+                        </header>
+                        <div class="modal__body">
+                            <p>{confirmModal.body}</p>
+                        </div>
+                        <footer class="modal__footer">
+                            <lightning-button label="Cancel" onclick={handleModalCancel}></lightning-button>
+                            <lightning-button label={confirmModal.confirmLabel} variant="brand" onclick={handleModalConfirm}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+            </template>
+    </div>
+</template>

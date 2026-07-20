@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Flow_Input_Mappings__c</fullName>
+    <description>Optional admin-friendly mapping from Flow input variable names to SmartIntake answer or context keys.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Map Flow inputs as FlowInputVariable &lt;- SmartIntakeKey, for example serialNumber &lt;- answerValue.</inlineHelpText>
+    <label>Flow Input Mappings</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
+</CustomField>

@@ -1,0 +1,42 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "answersJson" : {
+      "title" : "Answers JSON",
+      "description" : "Carries all collected answers across every turn. Pass from previous action output.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "currentQuestionKey" : {
+      "title" : "Current Question Key",
+      "description" : "Key of the current question being presented. Pass from previous response.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "intakeSessionId" : {
+      "title" : "Intake Session Id",
+      "description" : "Unique session identifier. Pass from previous action output to resume session.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "routableId" : {
+      "title" : "Routable Id",
+      "description" : "Messaging session or voice call record id. Pass from system context when available.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "smartIntakeContextKey" : {
+      "title" : "SmartIntake Context Key",
+      "description" : "Route key for SmartIntake. Set from $Context.Current_Page so Apex can resolve the template from routing metadata. Do not ask the user for this value.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType",
+  "lightning:textIndexed" : true
+}

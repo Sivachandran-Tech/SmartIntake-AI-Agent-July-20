@@ -1,0 +1,69 @@
+.smile-rating-container {
+    padding: 0.5rem 0;
+}
+
+.rating-label {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.smiles-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.smile-btn {
+    background: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 50%;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.smile-btn:hover:not([disabled]) {
+    transform: scale(1.25);
+    background: rgba(0, 112, 210, 0.08);
+}
+
+.smile-btn:focus {
+    outline: 2px solid #0070d2;
+    outline-offset: 2px;
+}
+
+.smile-btn[disabled] {
+    cursor: default;
+}
+
+.smile-btn--selected {
+    background: rgba(0, 112, 210, 0.12);
+    border-color: #0070d2;
+    transform: scale(1.2);
+}
+
+.smile-btn--empty {
+    opacity: 0.55;
+}
+
+.smile-btn--empty:hover:not([disabled]) {
+    opacity: 1;
+}
+
+.smile-emoji {
+    font-size: 1.75rem;
+    line-height: 1;
+    display: block;
+}
+
+.rating-feedback {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0070d2;
+    margin-top: 0.5rem;
+}

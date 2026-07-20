@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <capabilities>
+        <capability>lightning__dynamicComponent</capability>
+    </capabilities>
+    <masterLabel>SmartIntake Option Card Picker</masterLabel>
+    <description>Generic SmartIntake custom input that renders the configured question options as selectable cards. Set UI_Control__c = c/smartIntakeOptionCardPicker on a question and sync the custom control registry.</description>
+</LightningComponentBundle>

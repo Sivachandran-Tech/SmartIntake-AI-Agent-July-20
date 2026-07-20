@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>SmartIntakeAdminController</members>
+        <members>SmartIntakeAdminControllerTest</members>
+        <members>SmartIntakeAgentActionTest</members>
+        <members>SmartIntakeAgentTypesMapper</members>
+        <members>SmartIntakeAnswerCapture</members>
+        <members>SmartIntakeApexDebugLogService</members>
+        <members>SmartIntakeApexDebugLogServiceTest</members>
+        <members>SmartIntakeDeploymentCoverageTest</members>
+        <members>SmartIntakeDTO</members>
+        <members>SmartIntakeException</members>
+        <members>SmartIntakeFindExistingRecordAction</members>
+        <members>SmartIntakeGetExistingContextAction</members>
+        <members>SmartIntakeGetHandoffPlanAction</members>
+        <members>SmartIntakeGetNextByContextAction</members>
+        <members>SmartIntakeGetNextQuestionAction</members>
+        <members>SmartIntakeGetNextQuestionRoutedAction</members>
+        <members>SmartIntakeHandoffByContextAction</members>
+        <members>SmartIntakeHookService</members>
+        <members>SmartIntakeHookServiceTest</members>
+        <members>SmartIntakeMetadataDeployCallback</members>
+        <members>SmartIntakeMetadataService</members>
+        <members>SmartIntakeOptionContract</members>
+        <members>SmartIntakeQuestionContract</members>
+        <members>SmartIntakeResolveCtxActionTest</members>
+        <members>SmartIntakeResolveMessagingContextAction</members>
+        <members>SmartIntakeRuntimeController</members>
+        <members>SmartIntakeSaveByContextAction</members>
+        <members>SmartIntakeSaveFinalAction</members>
+        <members>SmartIntakeSecurityService</members>
+        <members>SmartIntakeService</members>
+        <members>SmartIntakeSubmitAnswerAction</members>
+        <members>SmartIntakeSubmitByContextAction</members>
+        <members>SmartIntakeSubmitCurrentAnswerAction</members>
+        <members>SmartIntakeTestDataFactory</members>
+        <members>SmartIntakeTurnInterpreterAction</members>
+        <members>SmartIntakeTurnInterpreterActionTest</members>
+        <members>SmartIntakeValidateAnswerAction</members>
+        <members>SmartIntakeWarrantyEmailOtpAction</members>
+        <members>SmartIntakeWarrantyOtpService</members>
+        <members>SmartIntakeWarrantyOtpServiceTest</members>
+        <members>SmartIntakeWarrantyVerifyOtpAction</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>eventPulseRating</members>
+        <members>smartIntakeAdminConsole</members>
+        <members>smartIntakeAnswerCapture</members>
+        <members>smartIntakeAnswerCaptureRenderer</members>
+        <members>smartIntakeAnswerEditor</members>
+        <members>smartIntakeChatLauncher</members>
+        <members>smartIntakeConfiguredControl</members>
+        <members>smartIntakeControlRegistry</members>
+        <members>smartIntakeOptionCardPicker</members>
+        <members>smartIntakeProductSelector</members>
+        <members>smartIntakeQuestionContract</members>
+        <members>smartIntakeQuestionLegacyRenderer</members>
+        <members>smartIntakeQuestionRenderer</members>
+        <members>smartIntakeRuntime</members>
+        <members>smileRating</members>
+        <members>testRating</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Asset_Warranty__c</members>
+        <members>SmartIntake_Branding_Config__mdt</members>
+        <members>SmartIntake_Condition__mdt</members>
+        <members>SmartIntake_Context_Config__mdt</members>
+        <members>SmartIntake_Control__mdt</members>
+        <members>SmartIntake_Email_OTP__c</members>
+        <members>SmartIntake_Field_Binding__mdt</members>
+        <members>SmartIntake_File_Config__mdt</members>
+        <members>SmartIntake_Handoff_Config__mdt</members>
+        <members>SmartIntake_Hook__mdt</members>
+        <members>SmartIntake_Matching_Rule__mdt</members>
+        <members>SmartIntake_Message__mdt</members>
+        <members>SmartIntake_Metadata_Deployment__c</members>
+        <members>SmartIntake_Option__mdt</members>
+        <members>SmartIntake_Question__mdt</members>
+        <members>SmartIntake_Session__c</members>
+        <members>SmartIntake_Submission__c</members>
+        <members>SmartIntake_Template__mdt</members>
+        <members>SmartIntake_Template_Route__mdt</members>
+        <members>SmartIntake_Validation_Rule__mdt</members>
+        <members>Warranty_Claim__c</members>
+        <members>Warranty_Claim_Line__c</members>
+        <members>Warranty_Document__c</members>
+        <members>Warranty_Plan__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>Get_Agent_User</members>
+        <members>Route_to_Agent</members>
+        <members>SmartIntake_Hotel_Guest_Email_Match</members>
+        <members>SmartIntake_Hotel_Guest_Phone_Match</members>
+        <members>Warranty_Email_Check_Send_OTP</members>
+        <members>Warranty_Validate_Selected_Product</members>
+        <members>Warranty_Verify_Email_OTP</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>SmartIntake_Admin</members>
+        <members>SmartIntake_Digital_Engagement_Admin</members>
+        <members>SmartIntake_Digital_Engagement_Agent</members>
+        <members>SmartIntake_Guest_Runtime</members>
+        <members>SmartIntake_New1647374054_Permissions</members>
+        <members>SmartIntake_Permissions</members>
+        <members>SmartIntake_Runtime</members>
+        <members>SmartIntake_Warranty_Demo</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>SmartIntake</members>
+        <members>SmartIntake_Admin</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>Asset_Warranty__c</members>
+        <members>SmartIntake_Admin</members>
+        <members>SmartIntake_Runtime</members>
+        <members>Warranty_Claim__c</members>
+        <members>Warranty_Claim_Line__c</members>
+        <members>Warranty_Document__c</members>
+        <members>Warranty_Plan__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Asset_Warranty__c-Asset Warranty Layout</members>
+        <members>SmartIntake_Branding_Config__mdt-SmartIntake Branding Config Layout</members>
+        <members>SmartIntake_Condition__mdt-SmartIntake Condition Layout</members>
+        <members>SmartIntake_Context_Config__mdt-SmartIntake Context Config Layout</members>
+        <members>SmartIntake_Control__mdt-SmartIntake Control Layout</members>
+        <members>SmartIntake_Email_OTP__c-SmartIntake Email OTP Layout</members>
+        <members>SmartIntake_Field_Binding__mdt-SmartIntake Field Binding Layout</members>
+        <members>SmartIntake_File_Config__mdt-SmartIntake File Config Layout</members>
+        <members>SmartIntake_Handoff_Config__mdt-SmartIntake Handoff Config Layout</members>
+        <members>SmartIntake_Hook__mdt-SmartIntake Hook Layout</members>
+        <members>SmartIntake_Matching_Rule__mdt-SmartIntake Matching Rule Layout</members>
+        <members>SmartIntake_Message__mdt-SmartIntake Message Layout</members>
+        <members>SmartIntake_Metadata_Deployment__c-SmartIntake Metadata Deployment Layout</members>
+        <members>SmartIntake_Option__mdt-SmartIntake Option Layout</members>
+        <members>SmartIntake_Question__mdt-SmartIntake Question Layout</members>
+        <members>SmartIntake_Session__c-SmartIntake Session Layout</members>
+        <members>SmartIntake_Submission__c-SmartIntake Submission Layout</members>
+        <members>SmartIntake_Template__mdt-SmartIntake Template Layout</members>
+        <members>SmartIntake_Template_Route__mdt-SmartIntake Template Route Layout</members>
+        <members>SmartIntake_Validation_Rule__mdt-SmartIntake Validation Rule Layout</members>
+        <members>Warranty_Claim__c-Warranty Claim Layout</members>
+        <members>Warranty_Claim_Line__c-Warranty Claim Line Layout</members>
+        <members>Warranty_Document__c-Warranty Document Layout</members>
+        <members>Warranty_Plan__c-Warranty Plan Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>SmartIntake_Email_OTP_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>smartIntakeBotLogo</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>SmartIntake_v6</members>
+        <name>GenAiPlannerBundle</name>
+    </types>
+    <types>
+        <members>Get_Agent_User</members>
+        <members>SmartIntake_Find_Existing_Record</members>
+        <members>SmartIntake_Find_Existing_Record_By_Context</members>
+        <members>SmartIntake_Get_Existing_Context</members>
+        <members>SmartIntake_Get_Existing_Context_By_Context</members>
+        <members>SmartIntake_Get_Handoff_Plan</members>
+        <members>SmartIntake_Get_Next_Intake_Question</members>
+        <members>SmartIntake_Get_Next_Intake_Question_By_Context</members>
+        <members>SmartIntake_Get_Next_Intake_Question_Routed</members>
+        <members>SmartIntake_Interpret_Turn_With_Prompt_Template</members>
+        <members>SmartIntake_Save_Final_Intake_Record</members>
+        <members>SmartIntake_Submit_Current_Intake_Answer</members>
+        <members>SmartIntake_Submit_Current_Intake_Answer_V2</members>
+        <name>GenAiFunction</name>
+    </types>
+    <types>
+        <members>SmartIntake_Turn_Interpreter</members>
+        <name>GenAiPromptTemplate</name>
+    </types>
+    <version>67.0</version>
+</Package>
